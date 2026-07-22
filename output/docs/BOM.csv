@@ -1,0 +1,15 @@
+﻿Catégorie;Élément;Quantité;Matériau;Référence;Notes
+Pièce imprimée;Module de châssis avant gauche;1;PETG;chassis_front_left.stl;
+Pièce imprimée;Module de châssis avant droit;1;PETG;chassis_front_right.stl;
+Pièce imprimée;Module de châssis arrière gauche;1;PETG;chassis_rear_left.stl;
+Pièce imprimée;Module de châssis arrière droit;1;PETG;chassis_rear_right.stl;
+Pièce imprimée;Plaque de jonction horizontale;2;PETG;joiner_horizontal_x2.stl;
+Pièce imprimée;Plaque de jonction verticale;2;PETG;joiner_vertical_x2.stl;
+Pièce imprimée;Guide latéral gauche;2;PETG;laptop_guide_left_x2.stl;
+Pièce imprimée;Guide latéral droit;2;PETG;laptop_guide_right_x2.stl;
+Pièce imprimée;Butée arrière;2;PETG;laptop_rear_stop_x2.stl;
+Pièce imprimée;Clip de câble arrière;2;PETG;cable_clip_x2.stl;
+Pièce imprimée;Patin antidérapant;6;TPU;tpu_pad_x6.stl;
+Visserie;Vis M3;16;Acier;M3;Longueur à confirmer après le premier prototype.
+Visserie;Insert thermique M3;16;Laiton;M3;
+Équipement;Ordinateur portable;1;;ASUS R753UX-T4039T;Dimensions déclarées : 415 × 275 × 32 mm.

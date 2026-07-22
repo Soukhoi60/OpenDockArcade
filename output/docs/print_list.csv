@@ -1,0 +1,12 @@
+﻿Fichier STL;Pièce;Quantité;Matériau;Hauteur de couche;Parois;Remplissage;Supports;Notes
+chassis_front_left.stl;Châssis avant gauche;1;PETG;0,20 mm;4;25 %;Non, sauf indication du trancheur;Imprimer à plat.
+chassis_front_right.stl;Châssis avant droit;1;PETG;0,20 mm;4;25 %;Non, sauf indication du trancheur;Imprimer à plat.
+chassis_rear_left.stl;Châssis arrière gauche;1;PETG;0,20 mm;4;25 %;Non, sauf indication du trancheur;Imprimer à plat.
+chassis_rear_right.stl;Châssis arrière droit;1;PETG;0,20 mm;4;25 %;Non, sauf indication du trancheur;Imprimer à plat.
+joiner_horizontal_x2.stl;Plaque de jonction horizontale;2;PETG;0,20 mm;4;40 %;Non, sauf indication du trancheur;Zone mécanique fortement sollicitée.
+joiner_vertical_x2.stl;Plaque de jonction verticale;2;PETG;0,20 mm;4;40 %;Non, sauf indication du trancheur;Zone mécanique fortement sollicitée.
+laptop_guide_left_x2.stl;Guide latéral gauche;2;PETG;0,20 mm;4;30 %;Non, sauf indication du trancheur;Paroi verticale orientée vers le portable.
+laptop_guide_right_x2.stl;Guide latéral droit;2;PETG;0,20 mm;4;30 %;Non, sauf indication du trancheur;Paroi verticale orientée vers le portable.
+laptop_rear_stop_x2.stl;Butée arrière;2;PETG;0,20 mm;4;30 %;Non, sauf indication du trancheur;Imprimer sur la base.
+cable_clip_x2.stl;Clip de câble;2;PETG;0,20 mm;4;35 %;Non, sauf indication du trancheur;Utiliser au moins quatre parois.
+tpu_pad_x6.stl;Patin antidérapant;6;TPU 95A;0,20 mm;3;20 %;Non;Imprimer lentement.

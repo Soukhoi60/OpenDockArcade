@@ -4,7 +4,14 @@ OpenDock Arcade Generator
 
 from __future__ import annotations
 
+from pathlib import Path
+
+from core.assembly import write_assembly_guide
+from core.bom import BOMItem, write_bom
 from core.export import export
+from core.hardware import HardwareItem, write_hardware_list
+from core.print_list import PrintItem, write_print_list
+
 from parts.cable_clip import CableClip
 from parts.chassis import Chassis
 from parts.joiner_plate import JoinerPlate
@@ -13,13 +20,19 @@ from parts.laptop_rear_stop import LaptopRearStop
 from parts.tpu_pad import TPUPad
 
 
-def main() -> None:
-    print("Génération OpenDock Arcade...")
+OUTPUT_DIRECTORY = Path("output")
+DOCS_DIRECTORY = OUTPUT_DIRECTORY / "docs"
+
+
+def generate_cad_files() -> None:
+    """Génère tous les fichiers STEP et STL."""
+
+    print("Génération des modèles 3D...")
     print("")
 
     chassis_generator = Chassis()
 
-    # Châssis complet.
+    # Châssis complet de référence.
     full_chassis = chassis_generator.build_full()
 
     export(
@@ -36,13 +49,13 @@ def main() -> None:
             module_model,
         )
 
-    # Plaques d'assemblage.
+    # Plaques d’assemblage.
     horizontal_joiner = JoinerPlate(
-        orientation="horizontal"
+        orientation="horizontal",
     ).build()
 
     vertical_joiner = JoinerPlate(
-        orientation="vertical"
+        orientation="vertical",
     ).build()
 
     export(
@@ -57,11 +70,11 @@ def main() -> None:
 
     # Guides latéraux.
     left_guide = LaptopGuide(
-        side="left"
+        side="left",
     ).build()
 
     right_guide = LaptopGuide(
-        side="right"
+        side="right",
     ).build()
 
     export(
@@ -90,7 +103,7 @@ def main() -> None:
         cable_clip,
     )
 
-    # Patin TPU.
+    # Patin souple.
     pad = TPUPad().build()
 
     export(
@@ -98,17 +111,380 @@ def main() -> None:
         pad,
     )
 
+
+def generate_bom() -> None:
+    """Génère la nomenclature générale du projet."""
+
+    items = [
+        BOMItem(
+            category="Pièce imprimée",
+            name="Module de châssis avant gauche",
+            quantity=1,
+            material="PETG",
+            reference="chassis_front_left.stl",
+        ),
+        BOMItem(
+            category="Pièce imprimée",
+            name="Module de châssis avant droit",
+            quantity=1,
+            material="PETG",
+            reference="chassis_front_right.stl",
+        ),
+        BOMItem(
+            category="Pièce imprimée",
+            name="Module de châssis arrière gauche",
+            quantity=1,
+            material="PETG",
+            reference="chassis_rear_left.stl",
+        ),
+        BOMItem(
+            category="Pièce imprimée",
+            name="Module de châssis arrière droit",
+            quantity=1,
+            material="PETG",
+            reference="chassis_rear_right.stl",
+        ),
+        BOMItem(
+            category="Pièce imprimée",
+            name="Plaque de jonction horizontale",
+            quantity=2,
+            material="PETG",
+            reference="joiner_horizontal_x2.stl",
+        ),
+        BOMItem(
+            category="Pièce imprimée",
+            name="Plaque de jonction verticale",
+            quantity=2,
+            material="PETG",
+            reference="joiner_vertical_x2.stl",
+        ),
+        BOMItem(
+            category="Pièce imprimée",
+            name="Guide latéral gauche",
+            quantity=2,
+            material="PETG",
+            reference="laptop_guide_left_x2.stl",
+        ),
+        BOMItem(
+            category="Pièce imprimée",
+            name="Guide latéral droit",
+            quantity=2,
+            material="PETG",
+            reference="laptop_guide_right_x2.stl",
+        ),
+        BOMItem(
+            category="Pièce imprimée",
+            name="Butée arrière",
+            quantity=2,
+            material="PETG",
+            reference="laptop_rear_stop_x2.stl",
+        ),
+        BOMItem(
+            category="Pièce imprimée",
+            name="Clip de câble arrière",
+            quantity=2,
+            material="PETG",
+            reference="cable_clip_x2.stl",
+        ),
+        BOMItem(
+            category="Pièce imprimée",
+            name="Patin antidérapant",
+            quantity=6,
+            material="TPU",
+            reference="tpu_pad_x6.stl",
+        ),
+        BOMItem(
+            category="Visserie",
+            name="Vis M3",
+            quantity=16,
+            material="Acier",
+            reference="M3",
+            notes="Longueur à confirmer après le premier prototype.",
+        ),
+        BOMItem(
+            category="Visserie",
+            name="Insert thermique M3",
+            quantity=16,
+            material="Laiton",
+            reference="M3",
+        ),
+        BOMItem(
+            category="Équipement",
+            name="Ordinateur portable",
+            quantity=1,
+            material="",
+            reference="ASUS R753UX-T4039T",
+            notes="Dimensions déclarées : 415 × 275 × 32 mm.",
+        ),
+    ]
+
+    write_bom(
+        items,
+        DOCS_DIRECTORY / "BOM.csv",
+    )
+
+
+def generate_print_list() -> None:
+    """Génère les recommandations d’impression."""
+
+    petg_common = {
+        "material": "PETG",
+        "layer_height": "0,20 mm",
+        "walls": 4,
+        "supports": "Non, sauf indication du trancheur",
+    }
+
+    items = [
+        PrintItem(
+            file_name="chassis_front_left.stl",
+            part_name="Châssis avant gauche",
+            quantity=1,
+            infill="25 %",
+            notes="Imprimer à plat.",
+            **petg_common,
+        ),
+        PrintItem(
+            file_name="chassis_front_right.stl",
+            part_name="Châssis avant droit",
+            quantity=1,
+            infill="25 %",
+            notes="Imprimer à plat.",
+            **petg_common,
+        ),
+        PrintItem(
+            file_name="chassis_rear_left.stl",
+            part_name="Châssis arrière gauche",
+            quantity=1,
+            infill="25 %",
+            notes="Imprimer à plat.",
+            **petg_common,
+        ),
+        PrintItem(
+            file_name="chassis_rear_right.stl",
+            part_name="Châssis arrière droit",
+            quantity=1,
+            infill="25 %",
+            notes="Imprimer à plat.",
+            **petg_common,
+        ),
+        PrintItem(
+            file_name="joiner_horizontal_x2.stl",
+            part_name="Plaque de jonction horizontale",
+            quantity=2,
+            infill="40 %",
+            notes="Zone mécanique fortement sollicitée.",
+            **petg_common,
+        ),
+        PrintItem(
+            file_name="joiner_vertical_x2.stl",
+            part_name="Plaque de jonction verticale",
+            quantity=2,
+            infill="40 %",
+            notes="Zone mécanique fortement sollicitée.",
+            **petg_common,
+        ),
+        PrintItem(
+            file_name="laptop_guide_left_x2.stl",
+            part_name="Guide latéral gauche",
+            quantity=2,
+            infill="30 %",
+            notes="Paroi verticale orientée vers le portable.",
+            **petg_common,
+        ),
+        PrintItem(
+            file_name="laptop_guide_right_x2.stl",
+            part_name="Guide latéral droit",
+            quantity=2,
+            infill="30 %",
+            notes="Paroi verticale orientée vers le portable.",
+            **petg_common,
+        ),
+        PrintItem(
+            file_name="laptop_rear_stop_x2.stl",
+            part_name="Butée arrière",
+            quantity=2,
+            infill="30 %",
+            notes="Imprimer sur la base.",
+            **petg_common,
+        ),
+        PrintItem(
+            file_name="cable_clip_x2.stl",
+            part_name="Clip de câble",
+            quantity=2,
+            infill="35 %",
+            notes="Utiliser au moins quatre parois.",
+            **petg_common,
+        ),
+        PrintItem(
+            file_name="tpu_pad_x6.stl",
+            part_name="Patin antidérapant",
+            quantity=6,
+            material="TPU 95A",
+            layer_height="0,20 mm",
+            walls=3,
+            infill="20 %",
+            supports="Non",
+            notes="Imprimer lentement.",
+        ),
+    ]
+
+    write_print_list(
+        items,
+        DOCS_DIRECTORY / "print_list.csv",
+    )
+
+
+def generate_hardware_list() -> None:
+    """Génère la liste de visserie."""
+
+    items = [
+        HardwareItem(
+            name="Insert thermique M3",
+            quantity=8,
+            specification="M3, diamètre extérieur selon config.py",
+            usage="Assemblage des quatre modules du châssis",
+        ),
+        HardwareItem(
+            name="Vis M3",
+            quantity=8,
+            specification="M3, longueur à confirmer",
+            usage="Plaques de jonction du châssis",
+        ),
+        HardwareItem(
+            name="Insert thermique M3",
+            quantity=4,
+            specification="M3, diamètre extérieur selon config.py",
+            usage="Guides latéraux du portable",
+        ),
+        HardwareItem(
+            name="Vis M3",
+            quantity=4,
+            specification="M3 à tête cylindrique",
+            usage="Guides latéraux du portable",
+        ),
+        HardwareItem(
+            name="Insert thermique M3",
+            quantity=2,
+            specification="M3, diamètre extérieur selon config.py",
+            usage="Butées arrière du portable",
+        ),
+        HardwareItem(
+            name="Vis M3",
+            quantity=2,
+            specification="M3 à tête cylindrique",
+            usage="Butées arrière du portable",
+        ),
+        HardwareItem(
+            name="Insert thermique M3",
+            quantity=2,
+            specification="M3, diamètre extérieur selon config.py",
+            usage="Clips de câbles arrière",
+        ),
+        HardwareItem(
+            name="Vis M3",
+            quantity=2,
+            specification="M3 à tête cylindrique",
+            usage="Clips de câbles arrière",
+        ),
+    ]
+
+    write_hardware_list(
+        items,
+        DOCS_DIRECTORY / "hardware.csv",
+    )
+
+
+def generate_assembly_guide() -> None:
+    """Génère le premier guide d’assemblage."""
+
+    steps = [
+        (
+            "Imprimer les quatre modules du châssis et vérifier qu’ils "
+            "peuvent être placés ensemble sans chevauchement."
+        ),
+        (
+            "Installer les inserts thermiques M3 dans les bossages du "
+            "châssis. Chauffer modérément l’insert et l’enfoncer bien droit."
+        ),
+        (
+            "Assembler les quatre modules avec les deux plaques de jonction "
+            "horizontales et les deux plaques verticales."
+        ),
+        (
+            "Poser le châssis sur une surface plane puis serrer progressivement "
+            "les vis. Ne pas serrer complètement un seul côté avant les autres."
+        ),
+        (
+            "Installer les six patins TPU sous le châssis et vérifier que "
+            "l’ensemble ne bascule pas."
+        ),
+        (
+            "Placer le portable sans le fixer afin de vérifier son centrage, "
+            "les dégagements et l’accès à ses connecteurs."
+        ),
+        (
+            "Installer les guides latéraux gauche et droit. Laisser un léger "
+            "jeu afin de ne pas comprimer la coque du portable."
+        ),
+        (
+            "Installer les deux butées arrière et vérifier que le portable "
+            "ne peut plus reculer."
+        ),
+        (
+            "Installer les clips de câbles puis organiser les câbles sans "
+            "bloquer les grilles de ventilation."
+        ),
+        (
+            "Retirer une dernière fois le portable, contrôler toute la "
+            "visserie, puis effectuer l’installation définitive."
+        ),
+    ]
+
+    write_assembly_guide(
+        steps,
+        DOCS_DIRECTORY / "assembly.md",
+    )
+
+
+def generate_documentation() -> None:
+    """Génère tous les documents du projet."""
+
+    print("")
+    print("Génération de la documentation...")
+
+    generate_bom()
+    generate_print_list()
+    generate_hardware_list()
+    generate_assembly_guide()
+
+    print("  - output/docs/BOM.csv")
+    print("  - output/docs/print_list.csv")
+    print("  - output/docs/hardware.csv")
+    print("  - output/docs/assembly.md")
+
+
+def main() -> None:
+    """Point d’entrée principal du générateur."""
+
+    print("OpenDock Arcade")
+    print("================")
+    print("")
+
+    generate_cad_files()
+    generate_documentation()
+
     print("")
     print("Génération terminée.")
     print("")
     print("Quantités à imprimer :")
-    print("  - chaque module du châssis : 1")
+    print("  - module de châssis : 4 pièces")
     print("  - plaque horizontale : 2")
     print("  - plaque verticale : 2")
     print("  - guide latéral gauche : 2")
     print("  - guide latéral droit : 2")
-    print("  - patin TPU : 6")
+    print("  - butée arrière : 2")
     print("  - clip de câble arrière : 2")
+    print("  - patin TPU : 6")
     print("")
     print("Visserie totale actuelle :")
     print("  - vis M3 : 16")

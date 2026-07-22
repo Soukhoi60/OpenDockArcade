@@ -1,0 +1,9 @@
+﻿Élément;Quantité;Spécification;Utilisation;Notes
+Insert thermique M3;8;M3, diamètre extérieur selon config.py;Assemblage des quatre modules du châssis;
+Vis M3;8;M3, longueur à confirmer;Plaques de jonction du châssis;
+Insert thermique M3;4;M3, diamètre extérieur selon config.py;Guides latéraux du portable;
+Vis M3;4;M3 à tête cylindrique;Guides latéraux du portable;
+Insert thermique M3;2;M3, diamètre extérieur selon config.py;Butées arrière du portable;
+Vis M3;2;M3 à tête cylindrique;Butées arrière du portable;
+Insert thermique M3;2;M3, diamètre extérieur selon config.py;Clips de câbles arrière;
+Vis M3;2;M3 à tête cylindrique;Clips de câbles arrière;
