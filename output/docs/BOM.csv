@@ -10,6 +10,7 @@ Pièce imprimée;Guide latéral droit;2;PETG;laptop_guide_right_x2.stl;
 Pièce imprimée;Butée arrière;2;PETG;laptop_rear_stop_x2.stl;
 Pièce imprimée;Clip de câble arrière;2;PETG;cable_clip_x2.stl;
 Outil de calibration;Éprouvette pour inserts thermiques M3;1;PETG;insert_test_coupon.stl;À imprimer avant le châssis pour choisir le meilleur diamètre de logement.
+Outil de calibration;Éprouvette de passage des vis M3;1;PETG;m3_screw_test_coupon.stl;Permet de choisir le diamètre réel des trous traversants et de tester les têtes de vis.
 Pièce imprimée;Patin antidérapant;6;TPU;tpu_pad_x6.stl;
 Visserie;Vis M3;16;Acier;M3;Longueur à confirmer après le premier prototype.
 Visserie;Insert thermique M3;16;Laiton;M3;

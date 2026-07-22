@@ -18,6 +18,7 @@ from parts.insert_test_coupon import InsertTestCoupon
 from parts.joiner_plate import JoinerPlate
 from parts.laptop_guide import LaptopGuide
 from parts.laptop_rear_stop import LaptopRearStop
+from parts.m3_screw_test_coupon import M3ScrewTestCoupon
 from parts.tpu_pad import TPUPad
 
 
@@ -120,6 +121,14 @@ def generate_cad_files() -> None:
         insert_test_coupon,
     )
 
+    # Éprouvette de calibration pour les vis M3.
+    screw_test_coupon = M3ScrewTestCoupon().build()
+
+    export(
+        "m3_screw_test_coupon",
+        screw_test_coupon,
+    )
+
 
 def generate_bom() -> None:
     """Génère la nomenclature générale du projet."""
@@ -207,6 +216,17 @@ def generate_bom() -> None:
             ),
         ),
         BOMItem(
+            category="Outil de calibration",
+            name="Éprouvette de passage des vis M3",
+            quantity=1,
+            material="PETG",
+            reference="m3_screw_test_coupon.stl",
+            notes=(
+                "Permet de choisir le diamètre réel des "
+                "trous traversants et de tester les têtes de vis."
+            ),
+        ),
+        BOMItem(
             category="Pièce imprimée",
             name="Patin antidérapant",
             quantity=6,
@@ -256,6 +276,20 @@ def generate_print_list() -> None:
     }
 
     items = [
+        PrintItem(
+            file_name="m3_screw_test_coupon.stl",
+            part_name="Éprouvette de passage des vis M3",
+            quantity=1,
+            material="PETG",
+            layer_height="0,20 mm",
+            walls=4,
+            infill="40 %",
+            supports="Non",
+            notes=(
+                "Imprimer avec les mêmes réglages que "
+                "les pièces mécaniques définitives."
+            ),
+        ),
         PrintItem(
             file_name="chassis_front_left.stl",
             part_name="Châssis avant gauche",
@@ -424,9 +458,22 @@ def generate_assembly_guide() -> None:
             "Tester les cinq logements et noter celui qui maintient "
             "correctement l’insert sans fissurer le PETG."
         ),
+
         (
             "Reporter le diamètre retenu dans config.py avant de "
             "générer et d’imprimer les modules définitifs du châssis."
+        ),
+        (
+            "Imprimer l’éprouvette de passage des vis M3. "
+            "Tester chaque trou avec les vis réellement utilisées "
+            "et retenir le diamètre offrant un passage libre sans "
+            "jeu excessif."
+        ),
+        (
+            "Reporter le diamètre de passage retenu dans les "
+            "paramètres de vis de config.py. Vérifier également "
+            "que les têtes de vis entrent complètement dans les "
+            "logements de 6,5 mm."
         ),
         (
             "Imprimer les quatre modules du châssis et vérifier qu’ils "
@@ -507,7 +554,8 @@ def main() -> None:
     print("Génération terminée.")
     print("")
     print("Quantités à imprimer :")
-    print("  - éprouvette de calibration : 1")
+    print("  - éprouvette pour inserts M3 : 1")
+    print("  - éprouvette de passage des vis M3 : 1")
     print("  - module de châssis : 4 pièces")
     print("  - plaque horizontale : 2")
     print("  - plaque verticale : 2")
