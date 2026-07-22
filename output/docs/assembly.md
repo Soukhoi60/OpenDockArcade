@@ -109,6 +109,22 @@ Installer les clips de câbles puis organiser les câbles sans bloquer les grill
 
 ### Étape 25
 
+Tester une clé d’alignement dans un logement. La clé doit entrer sans forcer et sans jeu excessif.
+
+### Étape 26
+
+Installer deux clés dans chaque jonction du flanc gauche, puis rapprocher les sections jusqu’à obtenir un contour parfaitement aligné.
+
+### Étape 27
+
+Installer ensuite les plaques de jonction et engager les vis M3 sans serrer complètement.
+
+### Étape 28
+
+Répéter l’installation des clés et des plaques sur le flanc droit.
+
+### Étape 29
+
 Retirer une dernière fois le portable, contrôler toute la visserie, puis effectuer l’installation définitive.
 
 ## Vérifications finales

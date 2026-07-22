@@ -20,6 +20,7 @@ from parts.laptop_guide import LaptopGuide
 from parts.laptop_rear_stop import LaptopRearStop
 from parts.m3_screw_test_coupon import M3ScrewTestCoupon
 from parts.screen_support import ScreenSupport
+from parts.alignment_key import AlignmentKey
 from parts.side_panel import SidePanel
 from parts.side_panel_joiner import SidePanelJoiner
 from parts.tpu_pad import TPUPad
@@ -71,6 +72,14 @@ def generate_cad_files() -> None:
     export(
         "joiner_vertical_x2",
         vertical_joiner,
+    )
+
+    # Clé universelle d’alignement des sections de flanc.
+    alignment_key = AlignmentKey().build()
+
+    export(
+        "side_panel_alignment_key_x28",
+        alignment_key,
     )
 
     # Guides latéraux.
@@ -212,6 +221,17 @@ def generate_bom() -> None:
     """Génère la nomenclature générale du projet."""
 
     items = [
+        BOMItem(
+            category="Structure de borne",
+            name="Clé d’alignement de flanc",
+            quantity=28,
+            material="PETG",
+            reference="side_panel_alignment_key_x28.stl",
+            notes=(
+                "Deux clés par jonction, "
+                "quatorze clés par flanc."
+            ),
+        ),
         BOMItem(
             category="Structure de borne",
             name="Plaque de jonction de flanc",
@@ -449,6 +469,20 @@ def generate_print_list() -> None:
     }
 
     items = [
+        PrintItem(
+            file_name="side_panel_alignment_key_x28.stl",
+            part_name="Clé d’alignement de flanc",
+            quantity=28,
+            material="PETG",
+            layer_height="0,20 mm",
+            walls=4,
+            infill="60 %",
+            supports="Non",
+            notes=(
+                "Imprimer à plat. Tester une clé avant "
+                "d’imprimer les vingt-huit exemplaires."
+            ),
+        ),
         PrintItem(
             file_name="side_panel_joiner_x14.stl",
             part_name="Plaque de jonction de flanc",
@@ -844,6 +878,23 @@ def generate_assembly_guide() -> None:
             "bloquer les grilles de ventilation."
         ),
         (
+            "Tester une clé d’alignement dans un logement. "
+            "La clé doit entrer sans forcer et sans jeu excessif."
+        ),
+        (
+            "Installer deux clés dans chaque jonction du flanc "
+            "gauche, puis rapprocher les sections jusqu’à obtenir "
+            "un contour parfaitement aligné."
+        ),
+        (
+            "Installer ensuite les plaques de jonction et engager "
+            "les vis M3 sans serrer complètement."
+        ),
+        (
+            "Répéter l’installation des clés et des plaques sur "
+            "le flanc droit."
+        ),
+        (
             "Retirer une dernière fois le portable, contrôler toute la "
             "visserie, puis effectuer l’installation définitive."
         ),
@@ -853,7 +904,7 @@ def generate_assembly_guide() -> None:
         steps,
         DOCS_DIRECTORY / "assembly.md",
     )
-
+	
 
 def generate_documentation() -> None:
     """Génère tous les documents du projet."""

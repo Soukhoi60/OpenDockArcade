@@ -151,6 +151,20 @@ class Cabinet:
     # Séparation des deux sections supérieures.
     side_panel_upper_split_x: float = 352.0
 
+    # ============================================================
+    # Clés d'alignement des sections de flanc
+    # ============================================================
+
+    side_panel_alignment_key_length: float = 32.0
+    side_panel_alignment_key_width: float = 10.0
+    side_panel_alignment_key_thickness: float = 3.0
+
+    side_panel_alignment_key_clearance: float = 0.4
+    side_panel_alignment_key_offset: float = 25.0
+
+    side_panel_alignment_key_corner_radius: float = 2.0
+    side_panel_alignment_key_chamfer: float = 0.6
+
     # Butées arrière du portable
     rear_stop_base_width: float = 40.0
     rear_stop_base_depth: float = 28.0

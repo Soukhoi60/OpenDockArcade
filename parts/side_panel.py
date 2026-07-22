@@ -498,7 +498,50 @@ class SidePanel:
                 joint.center_z + offset,
             ),
         ]
+    def _alignment_key_centers(
+        self,
+        joint: PanelJoint,
+    ) -> list[tuple[float, float]]:
+        """
+        Retourne les centres des deux clés d’un joint.
 
+        Pour une séparation verticale :
+
+        - la clé traverse la séparation suivant X ;
+        - les deux clés sont réparties suivant Z.
+
+        Pour une séparation horizontale :
+
+        - la clé traverse la séparation suivant Z ;
+        - les deux clés sont réparties suivant X.
+        """
+
+        offset = (
+            cabinet.side_panel_alignment_key_offset
+        )
+
+        if joint.orientation == "horizontal":
+            return [
+                (
+                    joint.center_x,
+                    joint.center_z - offset,
+                ),
+                (
+                    joint.center_x,
+                    joint.center_z + offset,
+                ),
+            ]
+
+        return [
+            (
+                joint.center_x - offset,
+                joint.center_z,
+            ),
+            (
+                joint.center_x + offset,
+                joint.center_z,
+            ),
+        ]
     def _make_y_cylinder(
         self,
         *,
@@ -528,6 +571,68 @@ class SidePanel:
 
         return cq.Workplane(
             obj=solid
+        )
+
+    def _make_alignment_key_pocket(
+        self,
+        *,
+        joint: PanelJoint,
+        center_x: float,
+        center_z: float,
+    ) -> cq.Workplane:
+        """
+        Construit un logement de clé depuis la face intérieure.
+
+        Le logement traverse légèrement la frontière entre
+        deux sections afin que la clé maintienne les deux pièces.
+        """
+
+        clearance = (
+            cabinet.side_panel_alignment_key_clearance
+        )
+
+        key_length = (
+            cabinet.side_panel_alignment_key_length
+            + clearance
+        )
+
+        key_width = (
+            cabinet.side_panel_alignment_key_width
+            + clearance
+        )
+
+        pocket_depth = (
+            cabinet.side_panel_alignment_key_thickness
+            + 0.2
+        )
+
+        if joint.orientation == "horizontal":
+            size_x = key_length
+            size_z = key_width
+        else:
+            size_x = key_width
+            size_z = key_length
+
+        if self.side == "left":
+            center_y = pocket_depth / 2.0 - 0.1
+        else:
+            center_y = -pocket_depth / 2.0 + 0.1
+
+        return (
+            cq.Workplane("XY")
+            .box(
+                size_x,
+                pocket_depth,
+                size_z,
+                centered=(True, True, True),
+            )
+            .translate(
+                (
+                    center_x,
+                    center_y,
+                    center_z,
+                )
+            )
         )
 
     def _cut_joiner_screw_holes(
@@ -572,6 +677,40 @@ class SidePanel:
                     )
 
                 result = result.cut(hole)
+
+        return result
+
+    def _cut_alignment_key_pockets(
+        self,
+        panel: cq.Workplane,
+    ) -> cq.Workplane:
+        """
+        Découpe les vingt-huit demi-logements d’un flanc.
+
+        Chaque logement traverse une jonction entre deux sections.
+        Il est donc partagé automatiquement entre les deux pièces
+        après la découpe du flanc.
+        """
+
+        result = panel
+
+        for joint in self._joint_definitions():
+            centers = self._alignment_key_centers(
+                joint
+            )
+
+            for center_x, center_z in centers:
+                pocket = (
+                    self._make_alignment_key_pocket(
+                        joint=joint,
+                        center_x=center_x,
+                        center_z=center_z,
+                    )
+                )
+
+                result = result.cut(
+                    pocket
+                )
 
         return result
 
@@ -791,6 +930,7 @@ class SidePanel:
                 -bounding_box.zmin,
             )
         )
+
     def build(self) -> cq.Workplane:
         """Construit le flanc complet avec ses fixations."""
 
@@ -818,6 +958,10 @@ class SidePanel:
             panel
         )
 
+        panel = self._cut_alignment_key_pockets(
+            panel
+        )
+
         return panel.clean()
 
     def build_printable_sections(
@@ -826,8 +970,8 @@ class SidePanel:
         """
         Découpe le flanc en six sections imprimables.
 
-        Les sections sont déplacées individuellement vers
-        l’origine pour faciliter leur utilisation.
+        Les sections sont placées à plat et déplacées
+        individuellement vers l'origine.
         """
 
         full_panel = self.build()
@@ -847,7 +991,7 @@ class SidePanel:
                 volume = section_model.val().Volume()
             except Exception as error:
                 raise RuntimeError(
-                    "Impossible d’analyser la section "
+                    "Impossible d'analyser la section "
                     f"{section.name}."
                 ) from error
 
@@ -865,8 +1009,6 @@ class SidePanel:
                 .clean()
             )
 
-            sections[section.name] = (
-                section_model
-            )
+            sections[section.name] = section_model
 
         return sections

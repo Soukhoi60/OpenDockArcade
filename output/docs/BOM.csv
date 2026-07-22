@@ -1,4 +1,5 @@
 ﻿Catégorie;Élément;Quantité;Matériau;Référence;Notes
+Structure de borne;Clé d’alignement de flanc;28;PETG;side_panel_alignment_key_x28.stl;Deux clés par jonction, quatorze clés par flanc.
 Structure de borne;Plaque de jonction de flanc;14;PETG;side_panel_joiner_x14.stl;Sept plaques sur la face intérieure de chaque flanc.
 Visserie;Vis M3 pour les flancs;28;Acier;M3;Deux vis par plaque de jonction.
 Visserie;Insert thermique M3 pour les flancs;28;Laiton;M3;Deux inserts par plaque de jonction.

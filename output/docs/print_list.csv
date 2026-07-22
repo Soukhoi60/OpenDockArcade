@@ -1,4 +1,5 @@
 ﻿Fichier STL;Pièce;Quantité;Matériau;Hauteur de couche;Parois;Remplissage;Supports;Notes
+side_panel_alignment_key_x28.stl;Clé d’alignement de flanc;28;PETG;0,20 mm;4;60 %;Non;Imprimer à plat. Tester une clé avant d’imprimer les vingt-huit exemplaires.
 side_panel_joiner_x14.stl;Plaque de jonction de flanc;14;PETG;0,20 mm;5;50 %;Non;Imprimer à plat, logements d’inserts orientés vers le haut.
 side_panel_left_*.stl;Sections imprimables du flanc gauche;6;PETG;0,28 mm;5;15 %;Non;Imprimer chaque section à plat. Ne pas assembler définitivement avant l’ajout des fixations mécaniques.
 side_panel_right_*.stl;Sections imprimables du flanc droit;6;PETG;0,28 mm;5;15 %;Non;Imprimer chaque section à plat. Vérifier que le miroir correspond au côté droit.
