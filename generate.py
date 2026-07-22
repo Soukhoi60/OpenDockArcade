@@ -5,6 +5,7 @@ OpenDock Arcade Generator
 from __future__ import annotations
 
 from core.export import export
+from parts.cable_clip import CableClip
 from parts.chassis import Chassis
 from parts.joiner_plate import JoinerPlate
 from parts.laptop_guide import LaptopGuide
@@ -81,6 +82,14 @@ def main() -> None:
         rear_stop,
     )
 
+    # Clips de câbles arrière.
+    cable_clip = CableClip().build()
+
+    export(
+        "cable_clip_x2",
+        cable_clip,
+    )
+
     # Patin TPU.
     pad = TPUPad().build()
 
@@ -99,10 +108,11 @@ def main() -> None:
     print("  - guide latéral gauche : 2")
     print("  - guide latéral droit : 2")
     print("  - patin TPU : 6")
+    print("  - clip de câble arrière : 2")
     print("")
     print("Visserie totale actuelle :")
-    print("  - vis M3 : 14")
-    print("  - inserts thermiques M3 : 14")
+    print("  - vis M3 : 16")
+    print("  - inserts thermiques M3 : 16")
 
 
 if __name__ == "__main__":

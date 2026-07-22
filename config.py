@@ -101,6 +101,29 @@ class Cabinet:
     rear_stop_boss_diameter: float = 12.0
     rear_stop_boss_height: float = 8.0
 
+    # Clips de câbles arrière
+    cable_clip_base_width: float = 28.0
+    cable_clip_base_depth: float = 24.0
+    cable_clip_base_thickness: float = 5.0
+
+    cable_clip_outer_diameter: float = 18.0
+    cable_clip_inner_diameter: float = 10.0
+    cable_clip_ring_width: float = 10.0
+    cable_clip_opening: float = 7.0
+
+    cable_clip_mount_x: float = 205.0
+    cable_clip_mount_y: float = 154.0
+
+    cable_clip_screw_diameter: float = 3.4
+    cable_clip_screw_head_diameter: float = 6.5
+    cable_clip_screw_head_depth: float = 2.2
+
+    cable_clip_insert_diameter: float = 4.6
+    cable_clip_insert_depth: float = 5.2
+
+    cable_clip_boss_diameter: float = 12.0
+    cable_clip_boss_height: float = 8.0
+
     # Position du portable :
     # distance entre le bord avant du châssis et le portable
     laptop_offset_front: float = 35.0
