@@ -1,4 +1,6 @@
 ﻿Fichier STL;Pièce;Quantité;Matériau;Hauteur de couche;Parois;Remplissage;Supports;Notes
+side_panel_left.stl;Flanc gauche de la borne;1;PETG;0,28 mm;5;15 %;Non;Pièce probablement trop grande pour une imprimante standard. Export destiné à la validation ou au découpage futur.
+side_panel_right.stl;Flanc droit de la borne;1;PETG;0,28 mm;5;15 %;Non;Pièce probablement trop grande pour une imprimante standard. Export destiné à la validation ou au découpage futur.
 screen_support_x2.stl;Support arrière de l’écran;2;PETG;0,20 mm;5;40 %;Probablement nécessaires sous la surface supérieure;Imprimer les deux pièces dans la même orientation. Vérifier l’aperçu du trancheur.
 m3_screw_test_coupon.stl;Éprouvette de passage des vis M3;1;PETG;0,20 mm;4;40 %;Non;Imprimer avec les mêmes réglages que les pièces mécaniques définitives.
 chassis_front_left.stl;Châssis avant gauche;1;PETG;0,20 mm;4;25 %;Non, sauf indication du trancheur;Imprimer à plat.

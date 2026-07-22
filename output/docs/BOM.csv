@@ -1,4 +1,6 @@
 ﻿Catégorie;Élément;Quantité;Matériau;Référence;Notes
+Structure de borne;Flanc gauche;1;PETG ou panneau usiné;side_panel_left.stl;Prototype imprimé. La version finale pourra être découpée dans un panneau.
+Structure de borne;Flanc droit;1;PETG ou panneau usiné;side_panel_right.stl;Miroir exact du flanc gauche.
 Pièce imprimée;Support arrière de l’écran;2;PETG;screen_support_x2.stl;Ajouter une protection souple sur la surface en contact avec l’écran.
 Protection;Mousse ou TPU adhésif;2;Mousse, feutre ou TPU;;À placer sur les supports arrière afin de protéger le capot de l’écran.
 Pièce imprimée;Module de châssis avant gauche;1;PETG;chassis_front_left.stl;

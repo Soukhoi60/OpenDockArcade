@@ -20,6 +20,7 @@ from parts.laptop_guide import LaptopGuide
 from parts.laptop_rear_stop import LaptopRearStop
 from parts.m3_screw_test_coupon import M3ScrewTestCoupon
 from parts.screen_support import ScreenSupport
+from parts.side_panel import SidePanel
 from parts.tpu_pad import TPUPad
 
 
@@ -114,6 +115,26 @@ def generate_cad_files() -> None:
         screen_support,
     )
 
+    # Flanc gauche de la borne.
+    left_side_panel = SidePanel(
+        side="left",
+    ).build()
+
+    export(
+        "side_panel_left",
+        left_side_panel,
+    )
+
+    # Flanc droit de la borne.
+    right_side_panel = SidePanel(
+        side="right",
+    ).build()
+
+    export(
+        "side_panel_right",
+        right_side_panel,
+    )
+
     # Patin souple.
     pad = TPUPad().build()
 
@@ -143,6 +164,27 @@ def generate_bom() -> None:
     """Génère la nomenclature générale du projet."""
 
     items = [
+        BOMItem(
+            category="Structure de borne",
+            name="Flanc gauche",
+            quantity=1,
+            material="PETG ou panneau usiné",
+            reference="side_panel_left.stl",
+            notes=(
+                "Prototype imprimé. La version finale pourra "
+                "être découpée dans un panneau."
+            ),
+        ),
+        BOMItem(
+            category="Structure de borne",
+            name="Flanc droit",
+            quantity=1,
+            material="PETG ou panneau usiné",
+            reference="side_panel_right.stl",
+            notes=(
+                "Miroir exact du flanc gauche."
+            ),
+        ),
         BOMItem(
             category="Pièce imprimée",
             name="Support arrière de l’écran",
@@ -307,6 +349,36 @@ def generate_print_list() -> None:
     }
 
     items = [
+        PrintItem(
+            file_name="side_panel_left.stl",
+            part_name="Flanc gauche de la borne",
+            quantity=1,
+            material="PETG",
+            layer_height="0,28 mm",
+            walls=5,
+            infill="15 %",
+            supports="Non",
+            notes=(
+                "Pièce probablement trop grande pour une "
+                "imprimante standard. Export destiné à la "
+                "validation ou au découpage futur."
+            ),
+        ),
+        PrintItem(
+            file_name="side_panel_right.stl",
+            part_name="Flanc droit de la borne",
+            quantity=1,
+            material="PETG",
+            layer_height="0,28 mm",
+            walls=5,
+            infill="15 %",
+            supports="Non",
+            notes=(
+                "Pièce probablement trop grande pour une "
+                "imprimante standard. Export destiné à la "
+                "validation ou au découpage futur."
+            ),
+        ),
         PrintItem(
             file_name="screen_support_x2.stl",
             part_name="Support arrière de l’écran",
@@ -538,6 +610,17 @@ def generate_assembly_guide() -> None:
             "logements de 6,5 mm."
         ),
         (
+            "Ouvrir les fichiers des flancs gauche et droit dans "
+            "le logiciel de CAO ou le trancheur. Vérifier la "
+            "silhouette générale, l’inclinaison du panel de "
+            "contrôle et l’inclinaison de la zone écran."
+        ),
+        (
+            "Ne pas lancer l’impression complète des flancs à "
+            "cette étape. Ils servent d’abord à valider les "
+            "dimensions générales de la borne."
+        ),
+        (
             "Imprimer les quatre modules du châssis et vérifier qu’ils "
             "peuvent être placés ensemble sans chevauchement."
         ),
@@ -626,6 +709,8 @@ def main() -> None:
     print("Génération terminée.")
     print("")
     print("Quantités à imprimer :")
+    print("  - flanc gauche complet : 1")
+    print("  - flanc droit complet : 1")
     print("  - éprouvette pour inserts M3 : 1")
     print("  - éprouvette de passage des vis M3 : 1")
     print("  - module de châssis : 4 pièces")

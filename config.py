@@ -56,6 +56,38 @@ class Cabinet:
     joiner_rear_y: float = 115.0
     joiner_side_x: float = 219.0
 
+    # ============================================================
+    # Flancs de la borne
+    # ============================================================
+
+    side_panel_thickness: float = 18.0
+
+    side_panel_height: float = 620.0
+    side_panel_depth: float = 470.0
+
+    # Hauteur du bord avant du panel de contrôle.
+    side_panel_control_front_height: float = 220.0
+
+    # Profondeur horizontale du panel de contrôle.
+    side_panel_control_depth: float = 210.0
+
+    # Inclinaison du panel de contrôle par rapport à l’horizontale.
+    side_panel_control_angle: float = 12.0
+
+    # Hauteurs inférieure et supérieure de la zone écran.
+    side_panel_screen_bottom_height: float = 300.0
+    side_panel_screen_top_height: float = 540.0
+
+    # Inclinaison de l’écran par rapport à l’horizontale.
+    side_panel_screen_angle: float = 68.0
+
+    # Position avant du sommet de la borne.
+    # La valeur est mesurée depuis l’avant de la borne.
+    side_panel_top_front_x: float = 330.0
+
+    side_panel_front_radius: float = 35.0
+    side_panel_top_radius: float = 30.0
+
     # Guides latéraux du portable
     guide_length: float = 52.0
     guide_base_width: float = 28.0
