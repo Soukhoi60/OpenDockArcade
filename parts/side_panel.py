@@ -27,6 +27,24 @@ class PanelSection:
     z_min: float
     z_max: float
 
+@dataclass(frozen=True)
+class PanelJoint:
+    """
+    Joint mécanique entre deux sections.
+
+    orientation peut valoir :
+
+    - horizontal : les deux vis sont réparties sur X ;
+    - vertical : les deux vis sont réparties sur Z.
+    """
+
+    name: str
+    center_x: float
+    center_z: float
+    orientation: Literal[
+        "horizontal",
+        "vertical",
+    ]
 
 class SidePanel:
     """
@@ -347,6 +365,268 @@ class SidePanel:
             mirrorPlane="XZ"
         )
 
+    def _joint_definitions(
+        self,
+    ) -> list[PanelJoint]:
+        """
+        Retourne les sept joints mécaniques d’un flanc.
+
+        Chaque joint utilise une plaque à deux inserts.
+        """
+
+        lower_z = (
+            cabinet.side_panel_lower_split_height
+        )
+
+        middle_z = (
+            cabinet.side_panel_middle_split_height
+        )
+
+        main_x = (
+            cabinet.side_panel_main_split_x
+        )
+
+        upper_x = (
+            cabinet.side_panel_upper_split_x
+        )
+
+        depth = cabinet.side_panel_depth
+
+        return [
+            # Séparation verticale des sections basses.
+            PanelJoint(
+                name="lower_vertical",
+                center_x=main_x,
+                center_z=lower_z / 2.0,
+                orientation="horizontal",
+            ),
+
+            # Séparation verticale des sections centrales.
+            PanelJoint(
+                name="middle_vertical",
+                center_x=main_x,
+                center_z=(
+                    lower_z
+                    + middle_z
+                ) / 2.0,
+                orientation="horizontal",
+            ),
+
+            # Séparation verticale des sections supérieures.
+            PanelJoint(
+                name="upper_vertical",
+                center_x=upper_x,
+                center_z=(
+                    middle_z
+                    + cabinet.side_panel_height
+                ) / 2.0,
+                orientation="horizontal",
+            ),
+
+            # Séparation basse, partie avant.
+            PanelJoint(
+                name="lower_front_horizontal",
+                center_x=main_x / 2.0,
+                center_z=lower_z,
+                orientation="vertical",
+            ),
+
+            # Séparation basse, partie arrière.
+            PanelJoint(
+                name="lower_rear_horizontal",
+                center_x=(
+                    main_x
+                    + depth
+                ) / 2.0,
+                center_z=lower_z,
+                orientation="vertical",
+            ),
+
+            # Séparation centrale/supérieure,
+            # dans la zone avant encore présente.
+            PanelJoint(
+                name="upper_front_horizontal",
+                center_x=(
+                    main_x
+                    + upper_x
+                ) / 2.0,
+                center_z=middle_z,
+                orientation="vertical",
+            ),
+
+            # Séparation centrale/supérieure arrière.
+            PanelJoint(
+                name="upper_rear_horizontal",
+                center_x=(
+                    upper_x
+                    + depth
+                ) / 2.0,
+                center_z=middle_z,
+                orientation="vertical",
+            ),
+        ]
+
+    def _joint_hole_positions(
+        self,
+        joint: PanelJoint,
+    ) -> list[tuple[float, float]]:
+        """Retourne les deux trous associés à un joint."""
+
+        offset = (
+            cabinet.side_panel_joiner_hole_offset
+        )
+
+        if joint.orientation == "horizontal":
+            return [
+                (
+                    joint.center_x - offset,
+                    joint.center_z,
+                ),
+                (
+                    joint.center_x + offset,
+                    joint.center_z,
+                ),
+            ]
+
+        return [
+            (
+                joint.center_x,
+                joint.center_z - offset,
+            ),
+            (
+                joint.center_x,
+                joint.center_z + offset,
+            ),
+        ]
+
+    def _make_y_cylinder(
+        self,
+        *,
+        x: float,
+        z: float,
+        diameter: float,
+        start_y: float,
+        length: float,
+        direction_y: float,
+    ) -> cq.Workplane:
+        """Construit un cylindre orienté suivant l’axe Y."""
+
+        solid = cq.Solid.makeCylinder(
+            diameter / 2.0,
+            length,
+            cq.Vector(
+                x,
+                start_y,
+                z,
+            ),
+            cq.Vector(
+                0.0,
+                direction_y,
+                0.0,
+            ),
+        )
+
+        return cq.Workplane(
+            obj=solid
+        )
+
+    def _cut_joiner_screw_holes(
+        self,
+        panel: cq.Workplane,
+    ) -> cq.Workplane:
+        """Découpe les trous traversants des plaques de jonction."""
+
+        result = panel
+
+        thickness = (
+            cabinet.side_panel_thickness
+        )
+
+        for joint in self._joint_definitions():
+            for x, z in self._joint_hole_positions(
+                joint
+            ):
+                if self.side == "left":
+                    hole = self._make_y_cylinder(
+                        x=x,
+                        z=z,
+                        diameter=(
+                            cabinet
+                            .side_panel_joiner_screw_diameter
+                        ),
+                        start_y=-0.2,
+                        length=thickness + 0.4,
+                        direction_y=1.0,
+                    )
+                else:
+                    hole = self._make_y_cylinder(
+                        x=x,
+                        z=z,
+                        diameter=(
+                            cabinet
+                            .side_panel_joiner_screw_diameter
+                        ),
+                        start_y=0.2,
+                        length=thickness + 0.4,
+                        direction_y=-1.0,
+                    )
+
+                result = result.cut(hole)
+
+        return result
+
+    def _cut_joiner_head_pockets(
+        self,
+        panel: cq.Workplane,
+    ) -> cq.Workplane:
+        """
+        Découpe les logements de tête sur la face extérieure.
+
+        La plaque de jonction se trouve sur la face intérieure.
+        """
+
+        result = panel
+
+        thickness = (
+            cabinet.side_panel_thickness
+        )
+
+        pocket_depth = (
+            cabinet.side_panel_joiner_screw_head_depth
+        )
+
+        for joint in self._joint_definitions():
+            for x, z in self._joint_hole_positions(
+                joint
+            ):
+                if self.side == "left":
+                    pocket = self._make_y_cylinder(
+                        x=x,
+                        z=z,
+                        diameter=(
+                            cabinet
+                            .side_panel_joiner_screw_head_diameter
+                        ),
+                        start_y=thickness + 0.1,
+                        length=pocket_depth + 0.2,
+                        direction_y=-1.0,
+                    )
+                else:
+                    pocket = self._make_y_cylinder(
+                        x=x,
+                        z=z,
+                        diameter=(
+                            cabinet
+                            .side_panel_joiner_screw_head_diameter
+                        ),
+                        start_y=-thickness - 0.1,
+                        length=pocket_depth + 0.2,
+                        direction_y=1.0,
+                    )
+
+                result = result.cut(pocket)
+
+        return result
     def _section_definitions(
         self,
     ) -> list[PanelSection]:
@@ -512,7 +792,7 @@ class SidePanel:
             )
         )
     def build(self) -> cq.Workplane:
-        """Construit le flanc complet."""
+        """Construit le flanc complet avec ses fixations."""
 
         self._validate_parameters()
 
@@ -527,6 +807,14 @@ class SidePanel:
         )
 
         panel = self._orient_panel(
+            panel
+        )
+
+        panel = self._cut_joiner_screw_holes(
+            panel
+        )
+
+        panel = self._cut_joiner_head_pockets(
             panel
         )
 

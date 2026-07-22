@@ -1,4 +1,7 @@
 ﻿Catégorie;Élément;Quantité;Matériau;Référence;Notes
+Structure de borne;Plaque de jonction de flanc;14;PETG;side_panel_joiner_x14.stl;Sept plaques sur la face intérieure de chaque flanc.
+Visserie;Vis M3 pour les flancs;28;Acier;M3;Deux vis par plaque de jonction.
+Visserie;Insert thermique M3 pour les flancs;28;Laiton;M3;Deux inserts par plaque de jonction.
 Structure de borne;Flanc gauche;1;PETG ou panneau usiné;side_panel_left.stl;Prototype imprimé. La version finale pourra être découpée dans un panneau.
 Structure de borne;Flanc droit;1;PETG ou panneau usiné;side_panel_right.stl;Miroir exact du flanc gauche.
 Structure de borne;Sections imprimables du flanc gauche;6;PETG;side_panel_left_*.stl;Six sections constituant le flanc gauche. Les fixations seront ajoutées au sprint suivant.

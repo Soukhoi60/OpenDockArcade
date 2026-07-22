@@ -113,6 +113,26 @@ class Cabinet:
     clearance: float = 2.0
 
     # ============================================================
+    # Assemblage mécanique des sections de flanc
+    # ============================================================
+
+    side_panel_joiner_length: float = 60.0
+    side_panel_joiner_width: float = 20.0
+    side_panel_joiner_thickness: float = 6.0
+
+    # Distance entre le centre de la plaque et chaque vis.
+    side_panel_joiner_hole_offset: float = 20.0
+
+    side_panel_joiner_screw_diameter: float = 3.4
+    side_panel_joiner_screw_head_diameter: float = 6.5
+    side_panel_joiner_screw_head_depth: float = 2.4
+
+    side_panel_joiner_insert_diameter: float = 4.6
+    side_panel_joiner_insert_depth: float = 5.2
+
+    side_panel_joiner_corner_radius: float = 3.0
+
+    # ============================================================
     # Découpe imprimable des flancs
     # ============================================================
 

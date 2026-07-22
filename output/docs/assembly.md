@@ -45,53 +45,69 @@ Placer provisoirement les six sections de chaque côté sur une surface plane af
 
 ### Étape 9
 
-Ne pas coller les sections entre elles. Les joints recevront des logements de vis, des inserts et des plaques de renfort pendant le prochain sprint.
+Imprimer les quatorze plaques de jonction de flanc et installer deux inserts thermiques M3 dans chaque plaque.
 
 ### Étape 10
 
-Imprimer les quatre modules du châssis et vérifier qu’ils peuvent être placés ensemble sans chevauchement.
+Poser les six sections du flanc gauche face extérieure contre une surface plane. Placer les sept plaques sur la face intérieure, au-dessus des différents joints.
 
 ### Étape 11
 
-Installer les inserts thermiques M3 dans les bossages du châssis. Chauffer modérément l’insert et l’enfoncer bien droit.
+Engager toutes les vis du flanc gauche sans les serrer complètement. Aligner soigneusement le contour puis serrer progressivement.
 
 ### Étape 12
 
-Assembler les quatre modules avec les deux plaques de jonction horizontales et les deux plaques verticales.
+Répéter l’opération pour le flanc droit. Vérifier que les deux flancs sont parfaitement symétriques avant de poursuivre l’assemblage de la borne.
 
 ### Étape 13
 
-Poser le châssis sur une surface plane puis serrer progressivement les vis. Ne pas serrer complètement un seul côté avant les autres.
+Ne pas coller les sections entre elles. Les joints recevront des logements de vis, des inserts et des plaques de renfort pendant le prochain sprint.
 
 ### Étape 14
 
-Installer les six patins TPU sous le châssis et vérifier que l’ensemble ne bascule pas.
+Imprimer les quatre modules du châssis et vérifier qu’ils peuvent être placés ensemble sans chevauchement.
 
 ### Étape 15
 
-Placer le portable sans le fixer afin de vérifier son centrage, les dégagements et l’accès à ses connecteurs.
+Installer les inserts thermiques M3 dans les bossages du châssis. Chauffer modérément l’insert et l’enfoncer bien droit.
 
 ### Étape 16
 
-Installer les guides latéraux gauche et droit. Laisser un léger jeu afin de ne pas comprimer la coque du portable.
+Assembler les quatre modules avec les deux plaques de jonction horizontales et les deux plaques verticales.
 
 ### Étape 17
 
-Installer les deux butées arrière et vérifier que le portable ne peut plus reculer.
+Poser le châssis sur une surface plane puis serrer progressivement les vis. Ne pas serrer complètement un seul côté avant les autres.
 
 ### Étape 18
 
-Installer provisoirement les deux supports arrière de l’écran. Ajouter une protection en mousse, feutre ou TPU sur chaque surface de contact.
+Installer les six patins TPU sous le châssis et vérifier que l’ensemble ne bascule pas.
 
 ### Étape 19
 
-Ouvrir lentement l’écran du portable jusqu’à ce qu’il repose sur les deux supports. Vérifier que la pression est répartie et que le capot ne se déforme pas.
+Placer le portable sans le fixer afin de vérifier son centrage, les dégagements et l’accès à ses connecteurs.
 
 ### Étape 20
 
-Installer les clips de câbles puis organiser les câbles sans bloquer les grilles de ventilation.
+Installer les guides latéraux gauche et droit. Laisser un léger jeu afin de ne pas comprimer la coque du portable.
 
 ### Étape 21
+
+Installer les deux butées arrière et vérifier que le portable ne peut plus reculer.
+
+### Étape 22
+
+Installer provisoirement les deux supports arrière de l’écran. Ajouter une protection en mousse, feutre ou TPU sur chaque surface de contact.
+
+### Étape 23
+
+Ouvrir lentement l’écran du portable jusqu’à ce qu’il repose sur les deux supports. Vérifier que la pression est répartie et que le capot ne se déforme pas.
+
+### Étape 24
+
+Installer les clips de câbles puis organiser les câbles sans bloquer les grilles de ventilation.
+
+### Étape 25
 
 Retirer une dernière fois le portable, contrôler toute la visserie, puis effectuer l’installation définitive.
 

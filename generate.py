@@ -21,6 +21,7 @@ from parts.laptop_rear_stop import LaptopRearStop
 from parts.m3_screw_test_coupon import M3ScrewTestCoupon
 from parts.screen_support import ScreenSupport
 from parts.side_panel import SidePanel
+from parts.side_panel_joiner import SidePanelJoiner
 from parts.tpu_pad import TPUPad
 
 
@@ -175,6 +176,13 @@ def generate_cad_files() -> None:
             section_model,
         )
 
+    # Plaque universelle d’assemblage des sections de flanc.
+    side_panel_joiner = SidePanelJoiner().build()
+
+    export(
+        "side_panel_joiner_x14",
+        side_panel_joiner,
+    )
     # Patin souple.
     pad = TPUPad().build()
 
@@ -204,6 +212,37 @@ def generate_bom() -> None:
     """Génère la nomenclature générale du projet."""
 
     items = [
+        BOMItem(
+            category="Structure de borne",
+            name="Plaque de jonction de flanc",
+            quantity=14,
+            material="PETG",
+            reference="side_panel_joiner_x14.stl",
+            notes=(
+                "Sept plaques sur la face intérieure "
+                "de chaque flanc."
+            ),
+        ),
+        BOMItem(
+            category="Visserie",
+            name="Vis M3 pour les flancs",
+            quantity=28,
+            material="Acier",
+            reference="M3",
+            notes=(
+                "Deux vis par plaque de jonction."
+            ),
+        ),
+        BOMItem(
+            category="Visserie",
+            name="Insert thermique M3 pour les flancs",
+            quantity=28,
+            material="Laiton",
+            reference="M3",
+            notes=(
+                "Deux inserts par plaque de jonction."
+            ),
+        ),
         BOMItem(
             category="Structure de borne",
             name="Flanc gauche",
@@ -410,6 +449,20 @@ def generate_print_list() -> None:
     }
 
     items = [
+        PrintItem(
+            file_name="side_panel_joiner_x14.stl",
+            part_name="Plaque de jonction de flanc",
+            quantity=14,
+            material="PETG",
+            layer_height="0,20 mm",
+            walls=5,
+            infill="50 %",
+            supports="Non",
+            notes=(
+                "Imprimer à plat, logements d’inserts "
+                "orientés vers le haut."
+            ),
+        ),
          PrintItem(
             file_name="side_panel_left_*.stl",
             part_name=(
@@ -579,6 +632,31 @@ def generate_hardware_list() -> None:
     items = [
         HardwareItem(
             name="Insert thermique M3",
+            quantity=28,
+            specification=(
+                "M3, diamètre extérieur selon config.py"
+            ),
+            usage=(
+                "Plaques d’assemblage des sections de flanc"
+            ),
+        ),
+        HardwareItem(
+            name="Vis M3",
+            quantity=28,
+            specification=(
+                "M3 à tête cylindrique, longueur conseillée "
+                "22 à 25 mm"
+            ),
+            usage=(
+                "Assemblage des sections de flanc"
+            ),
+            notes=(
+                "La longueur définitive dépend de la profondeur "
+                "réelle de l’insert."
+            ),
+        ),
+        HardwareItem(
+            name="Insert thermique M3",
             quantity=2,
             specification=(
                 "M3, diamètre extérieur selon config.py"
@@ -695,6 +773,26 @@ def generate_assembly_guide() -> None:
             "la silhouette complète du flanc."
         ),
         (
+            "Imprimer les quatorze plaques de jonction de flanc "
+            "et installer deux inserts thermiques M3 dans chaque "
+            "plaque."
+        ),
+        (
+            "Poser les six sections du flanc gauche face extérieure "
+            "contre une surface plane. Placer les sept plaques sur "
+            "la face intérieure, au-dessus des différents joints."
+        ),
+        (
+            "Engager toutes les vis du flanc gauche sans les serrer "
+            "complètement. Aligner soigneusement le contour puis "
+            "serrer progressivement."
+        ),
+        (
+            "Répéter l’opération pour le flanc droit. Vérifier que "
+            "les deux flancs sont parfaitement symétriques avant "
+            "de poursuivre l’assemblage de la borne."
+        ),
+        (
             "Ne pas coller les sections entre elles. Les joints "
             "recevront des logements de vis, des inserts et des "
             "plaques de renfort pendant le prochain sprint."
@@ -803,10 +901,11 @@ def main() -> None:
     print("  - clip de câble arrière : 2")
     print("  - patin TPU : 6")
     print("  - support arrière de l’écran : 2")
+    print("  - plaque de jonction de flanc : 14")
     print("")
     print("Visserie totale actuelle :")
-    print("  - vis M3 : 18")
-    print("  - inserts thermiques M3 : 18")
+    print("  - vis M3 : 46")
+    print("  - inserts thermiques M3 : 46")
 
 
 if __name__ == "__main__":

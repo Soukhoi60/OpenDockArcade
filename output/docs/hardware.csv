@@ -1,4 +1,6 @@
 ﻿Élément;Quantité;Spécification;Utilisation;Notes
+Insert thermique M3;28;M3, diamètre extérieur selon config.py;Plaques d’assemblage des sections de flanc;
+Vis M3;28;M3 à tête cylindrique, longueur conseillée 22 à 25 mm;Assemblage des sections de flanc;La longueur définitive dépend de la profondeur réelle de l’insert.
 Insert thermique M3;2;M3, diamètre extérieur selon config.py;Supports arrière de l’écran;
 Vis M3;2;M3 à tête cylindrique;Supports arrière de l’écran;
 Insert thermique M3;8;M3, diamètre extérieur selon config.py;Assemblage des quatre modules du châssis;
