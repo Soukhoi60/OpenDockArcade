@@ -37,49 +37,61 @@ Ne pas lancer l’impression complète des flancs à cette étape. Ils servent d
 
 ### Étape 7
 
-Imprimer les quatre modules du châssis et vérifier qu’ils peuvent être placés ensemble sans chevauchement.
+Charger les douze sections de flanc dans le trancheur et vérifier que chaque pièce tient sur le plateau d’impression.
 
 ### Étape 8
 
-Installer les inserts thermiques M3 dans les bossages du châssis. Chauffer modérément l’insert et l’enfoncer bien droit.
+Placer provisoirement les six sections de chaque côté sur une surface plane afin de reconstruire la silhouette complète du flanc.
 
 ### Étape 9
 
-Assembler les quatre modules avec les deux plaques de jonction horizontales et les deux plaques verticales.
+Ne pas coller les sections entre elles. Les joints recevront des logements de vis, des inserts et des plaques de renfort pendant le prochain sprint.
 
 ### Étape 10
 
-Poser le châssis sur une surface plane puis serrer progressivement les vis. Ne pas serrer complètement un seul côté avant les autres.
+Imprimer les quatre modules du châssis et vérifier qu’ils peuvent être placés ensemble sans chevauchement.
 
 ### Étape 11
 
-Installer les six patins TPU sous le châssis et vérifier que l’ensemble ne bascule pas.
+Installer les inserts thermiques M3 dans les bossages du châssis. Chauffer modérément l’insert et l’enfoncer bien droit.
 
 ### Étape 12
 
-Placer le portable sans le fixer afin de vérifier son centrage, les dégagements et l’accès à ses connecteurs.
+Assembler les quatre modules avec les deux plaques de jonction horizontales et les deux plaques verticales.
 
 ### Étape 13
 
-Installer les guides latéraux gauche et droit. Laisser un léger jeu afin de ne pas comprimer la coque du portable.
+Poser le châssis sur une surface plane puis serrer progressivement les vis. Ne pas serrer complètement un seul côté avant les autres.
 
 ### Étape 14
 
-Installer les deux butées arrière et vérifier que le portable ne peut plus reculer.
+Installer les six patins TPU sous le châssis et vérifier que l’ensemble ne bascule pas.
 
 ### Étape 15
 
-Installer provisoirement les deux supports arrière de l’écran. Ajouter une protection en mousse, feutre ou TPU sur chaque surface de contact.
+Placer le portable sans le fixer afin de vérifier son centrage, les dégagements et l’accès à ses connecteurs.
 
 ### Étape 16
 
-Ouvrir lentement l’écran du portable jusqu’à ce qu’il repose sur les deux supports. Vérifier que la pression est répartie et que le capot ne se déforme pas.
+Installer les guides latéraux gauche et droit. Laisser un léger jeu afin de ne pas comprimer la coque du portable.
 
 ### Étape 17
 
-Installer les clips de câbles puis organiser les câbles sans bloquer les grilles de ventilation.
+Installer les deux butées arrière et vérifier que le portable ne peut plus reculer.
 
 ### Étape 18
+
+Installer provisoirement les deux supports arrière de l’écran. Ajouter une protection en mousse, feutre ou TPU sur chaque surface de contact.
+
+### Étape 19
+
+Ouvrir lentement l’écran du portable jusqu’à ce qu’il repose sur les deux supports. Vérifier que la pression est répartie et que le capot ne se déforme pas.
+
+### Étape 20
+
+Installer les clips de câbles puis organiser les câbles sans bloquer les grilles de ventilation.
+
+### Étape 21
 
 Retirer une dernière fois le portable, contrôler toute la visserie, puis effectuer l’installation définitive.
 

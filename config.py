@@ -112,6 +112,25 @@ class Cabinet:
     fillet: float = 4.0
     clearance: float = 2.0
 
+    # ============================================================
+    # Découpe imprimable des flancs
+    # ============================================================
+
+    # Jeu géométrique utilisé lors de la découpe booléenne.
+    side_panel_section_overlap: float = 0.20
+
+    # Première limite verticale.
+    side_panel_lower_split_height: float = 207.0
+
+    # Deuxième limite verticale.
+    side_panel_middle_split_height: float = 414.0
+
+    # Séparation avant/arrière des sections basses et centrales.
+    side_panel_main_split_x: float = 235.0
+
+    # Séparation des deux sections supérieures.
+    side_panel_upper_split_x: float = 352.0
+
     # Butées arrière du portable
     rear_stop_base_width: float = 40.0
     rear_stop_base_depth: float = 28.0

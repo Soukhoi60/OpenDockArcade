@@ -6,6 +6,7 @@ Parametric arcade cabinet side panels
 from __future__ import annotations
 
 import math
+from dataclasses import dataclass
 from typing import Literal
 
 import cadquery as cq
@@ -14,6 +15,17 @@ from config import cabinet
 
 
 PanelSide = Literal["left", "right"]
+
+
+@dataclass(frozen=True)
+class PanelSection:
+    """Zone rectangulaire utilisée pour découper un flanc."""
+
+    name: str
+    x_min: float
+    x_max: float
+    z_min: float
+    z_max: float
 
 
 class SidePanel:
@@ -41,7 +53,7 @@ class SidePanel:
         self.side = side
 
     def _validate_parameters(self) -> None:
-        """Vérifie les paramètres essentiels avant la construction."""
+        """Vérifie les paramètres avant la construction."""
 
         if cabinet.side_panel_thickness <= 0:
             raise ValueError(
@@ -105,6 +117,28 @@ class SidePanel:
                 "du flanc."
             )
 
+        if not (
+            0.0
+            < cabinet.side_panel_lower_split_height
+            < cabinet.side_panel_middle_split_height
+            < cabinet.side_panel_height
+        ):
+            raise ValueError(
+                "Les hauteurs de découpe des flancs "
+                "sont invalides."
+            )
+
+        if not (
+            0.0
+            < cabinet.side_panel_main_split_x
+            < cabinet.side_panel_upper_split_x
+            < cabinet.side_panel_depth
+        ):
+            raise ValueError(
+                "Les positions X de découpe des flancs "
+                "sont invalides."
+            )
+
     def _profile_points(
         self,
     ) -> list[tuple[float, float]]:
@@ -149,7 +183,6 @@ class SidePanel:
             - cabinet.side_panel_screen_bottom_height
         )
 
-        # L’écran monte et recule vers l’arrière.
         screen_horizontal_offset = (
             screen_height
             / math.tan(screen_angle_radians)
@@ -169,73 +202,54 @@ class SidePanel:
             screen_top_x + 15.0,
         )
 
-        points = [
-            # Bas avant.
+        return [
             (
                 0.0,
                 0.0,
             ),
-
-            # Bas arrière.
             (
                 cabinet.side_panel_depth,
                 0.0,
             ),
-
-            # Sommet arrière.
             (
                 cabinet.side_panel_depth,
                 cabinet.side_panel_height,
             ),
-
-            # Sommet avant.
             (
                 top_front_x,
                 cabinet.side_panel_height,
             ),
-
-            # Partie supérieure de la zone écran.
             (
                 screen_top_x,
                 screen_top_z,
             ),
-
-            # Partie inférieure de la zone écran.
             (
                 screen_bottom_x,
                 screen_bottom_z,
             ),
-
-            # Arrière du panel de contrôle.
             (
                 control_rear_x,
                 control_rear_z,
             ),
-
-            # Nez avant du panel de contrôle.
             (
                 control_front_x,
                 control_front_z,
             ),
         ]
 
-        return points
-
     def _build_raw_panel(self) -> cq.Workplane:
         """Construit le flanc sans arrondis."""
 
-        points = self._profile_points()
-
-        panel = (
+        return (
             cq.Workplane("XZ")
-            .polyline(points)
+            .polyline(
+                self._profile_points()
+            )
             .close()
             .extrude(
                 cabinet.side_panel_thickness
             )
         )
-
-        return panel
 
     def _nearest_profile_edge(
         self,
@@ -269,17 +283,12 @@ class SidePanel:
         if radius <= 0:
             return panel
 
-        front_x = 0.0
-        front_z = (
-            cabinet.side_panel_control_front_height
-        )
-
         try:
             return (
                 self._nearest_profile_edge(
                     panel,
-                    front_x,
-                    front_z,
+                    0.0,
+                    cabinet.side_panel_control_front_height,
                 )
                 .fillet(radius)
             )
@@ -303,8 +312,9 @@ class SidePanel:
         if radius <= 0:
             return panel
 
-        points = self._profile_points()
-        top_front_x, top_front_z = points[3]
+        top_front_x, top_front_z = (
+            self._profile_points()[3]
+        )
 
         try:
             return (
@@ -328,12 +338,7 @@ class SidePanel:
         self,
         panel: cq.Workplane,
     ) -> cq.Workplane:
-        """
-        Oriente la pièce selon le côté demandé.
-
-        Le flanc gauche est extrudé dans le sens positif de Y.
-        Le flanc droit est son miroir exact.
-        """
+        """Oriente la pièce selon le côté demandé."""
 
         if self.side == "left":
             return panel
@@ -342,6 +347,170 @@ class SidePanel:
             mirrorPlane="XZ"
         )
 
+    def _section_definitions(
+        self,
+    ) -> list[PanelSection]:
+        """Retourne les six zones imprimables du flanc."""
+
+        depth = cabinet.side_panel_depth
+        height = cabinet.side_panel_height
+
+        lower_z = (
+            cabinet.side_panel_lower_split_height
+        )
+
+        middle_z = (
+            cabinet.side_panel_middle_split_height
+        )
+
+        main_x = (
+            cabinet.side_panel_main_split_x
+        )
+
+        upper_x = (
+            cabinet.side_panel_upper_split_x
+        )
+
+        return [
+            PanelSection(
+                name="lower_front",
+                x_min=0.0,
+                x_max=main_x,
+                z_min=0.0,
+                z_max=lower_z,
+            ),
+            PanelSection(
+                name="lower_rear",
+                x_min=main_x,
+                x_max=depth,
+                z_min=0.0,
+                z_max=lower_z,
+            ),
+            PanelSection(
+                name="middle_front",
+                x_min=0.0,
+                x_max=main_x,
+                z_min=lower_z,
+                z_max=middle_z,
+            ),
+            PanelSection(
+                name="middle_rear",
+                x_min=main_x,
+                x_max=depth,
+                z_min=lower_z,
+                z_max=middle_z,
+            ),
+            PanelSection(
+                name="upper_front",
+                x_min=main_x,
+                x_max=upper_x,
+                z_min=middle_z,
+                z_max=height,
+            ),
+            PanelSection(
+                name="upper_rear",
+                x_min=upper_x,
+                x_max=depth,
+                z_min=middle_z,
+                z_max=height,
+            ),
+        ]
+
+    def _build_section_cutter(
+        self,
+        section: PanelSection,
+    ) -> cq.Workplane:
+        """
+        Construit le volume utilisé pour extraire une section.
+
+        Un très léger chevauchement évite les erreurs numériques
+        sur les frontières exactes.
+        """
+
+        overlap = (
+            cabinet.side_panel_section_overlap
+        )
+
+        x_min = section.x_min - overlap
+        x_max = section.x_max + overlap
+
+        z_min = section.z_min - overlap
+        z_max = section.z_max + overlap
+
+        width = x_max - x_min
+        height = z_max - z_min
+
+        cutter_y_size = (
+            cabinet.side_panel_thickness
+            * 4.0
+        )
+
+        return (
+            cq.Workplane("XY")
+            .box(
+                width,
+                cutter_y_size,
+                height,
+                centered=(
+                    False,
+                    True,
+                    False,
+                ),
+            )
+            .translate(
+                (
+                    x_min,
+                    0.0,
+                    z_min,
+                )
+            )
+        )
+
+    def _move_section_to_origin(
+        self,
+        section_model: cq.Workplane,
+    ) -> cq.Workplane:
+        """
+        Place une section à plat sur le plan XY.
+
+        Dans le flanc complet :
+
+        - X correspond à la profondeur ;
+        - Y correspond à l’épaisseur ;
+        - Z correspond à la hauteur.
+
+        Une rotation de 90 degrés autour de X place
+        l’épaisseur de la pièce sur l’axe Z, comme attendu
+        par un trancheur.
+        """
+
+        flat_section = section_model.rotate(
+            (
+                0.0,
+                0.0,
+                0.0,
+            ),
+            (
+                1.0,
+                0.0,
+                0.0,
+            ),
+            90.0,
+        )
+
+        bounding_box = (
+            flat_section
+            .val()
+            .BoundingBox()
+        )
+
+        return flat_section.translate(
+            (
+                -bounding_box.xmin,
+                -bounding_box.ymin,
+                -bounding_box.zmin,
+            )
+        )
     def build(self) -> cq.Workplane:
         """Construit le flanc complet."""
 
@@ -362,3 +531,54 @@ class SidePanel:
         )
 
         return panel.clean()
+
+    def build_printable_sections(
+        self,
+    ) -> dict[str, cq.Workplane]:
+        """
+        Découpe le flanc en six sections imprimables.
+
+        Les sections sont déplacées individuellement vers
+        l’origine pour faciliter leur utilisation.
+        """
+
+        full_panel = self.build()
+
+        sections: dict[str, cq.Workplane] = {}
+
+        for section in self._section_definitions():
+            cutter = self._build_section_cutter(
+                section
+            )
+
+            section_model = full_panel.intersect(
+                cutter
+            )
+
+            try:
+                volume = section_model.val().Volume()
+            except Exception as error:
+                raise RuntimeError(
+                    "Impossible d’analyser la section "
+                    f"{section.name}."
+                ) from error
+
+            if volume <= 0.01:
+                raise RuntimeError(
+                    "La section "
+                    f"{section.name} est vide. "
+                    "Vérifie les paramètres de découpe."
+                )
+
+            section_model = (
+                self._move_section_to_origin(
+                    section_model
+                )
+                .clean()
+            )
+
+            sections[section.name] = (
+                section_model
+            )
+
+        return sections

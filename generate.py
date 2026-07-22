@@ -115,25 +115,65 @@ def generate_cad_files() -> None:
         screen_support,
     )
 
-    # Flanc gauche de la borne.
-    left_side_panel = SidePanel(
+    # ============================================================
+    # Flanc gauche complet et sections imprimables
+    # ============================================================
+
+    left_side_panel_generator = SidePanel(
         side="left",
-    ).build()
+    )
+
+    left_side_panel = (
+        left_side_panel_generator.build()
+    )
 
     export(
         "side_panel_left",
         left_side_panel,
     )
 
-    # Flanc droit de la borne.
-    right_side_panel = SidePanel(
+    left_side_sections = (
+        left_side_panel_generator
+        .build_printable_sections()
+    )
+
+    for section_name, section_model in (
+        left_side_sections.items()
+    ):
+        export(
+            f"side_panel_left_{section_name}",
+            section_model,
+        )
+
+    # ============================================================
+    # Flanc droit complet et sections imprimables
+    # ============================================================
+
+    right_side_panel_generator = SidePanel(
         side="right",
-    ).build()
+    )
+
+    right_side_panel = (
+        right_side_panel_generator.build()
+    )
 
     export(
         "side_panel_right",
         right_side_panel,
     )
+
+    right_side_sections = (
+        right_side_panel_generator
+        .build_printable_sections()
+    )
+
+    for section_name, section_model in (
+        right_side_sections.items()
+    ):
+        export(
+            f"side_panel_right_{section_name}",
+            section_model,
+        )
 
     # Patin souple.
     pad = TPUPad().build()
@@ -183,6 +223,27 @@ def generate_bom() -> None:
             reference="side_panel_right.stl",
             notes=(
                 "Miroir exact du flanc gauche."
+            ),
+        ),
+        BOMItem(
+            category="Structure de borne",
+            name="Sections imprimables du flanc gauche",
+            quantity=6,
+            material="PETG",
+            reference="side_panel_left_*.stl",
+            notes=(
+                "Six sections constituant le flanc gauche. "
+                "Les fixations seront ajoutées au sprint suivant."
+            ),
+        ),
+        BOMItem(
+            category="Structure de borne",
+            name="Sections imprimables du flanc droit",
+            quantity=6,
+            material="PETG",
+            reference="side_panel_right_*.stl",
+            notes=(
+                "Six sections constituant le flanc droit."
             ),
         ),
         BOMItem(
@@ -349,34 +410,37 @@ def generate_print_list() -> None:
     }
 
     items = [
-        PrintItem(
-            file_name="side_panel_left.stl",
-            part_name="Flanc gauche de la borne",
-            quantity=1,
+         PrintItem(
+            file_name="side_panel_left_*.stl",
+            part_name=(
+                "Sections imprimables du flanc gauche"
+            ),
+            quantity=6,
             material="PETG",
             layer_height="0,28 mm",
             walls=5,
             infill="15 %",
             supports="Non",
             notes=(
-                "Pièce probablement trop grande pour une "
-                "imprimante standard. Export destiné à la "
-                "validation ou au découpage futur."
+                "Imprimer chaque section à plat. "
+                "Ne pas assembler définitivement avant "
+                "l’ajout des fixations mécaniques."
             ),
         ),
         PrintItem(
-            file_name="side_panel_right.stl",
-            part_name="Flanc droit de la borne",
-            quantity=1,
+            file_name="side_panel_right_*.stl",
+            part_name=(
+                "Sections imprimables du flanc droit"
+            ),
+            quantity=6,
             material="PETG",
             layer_height="0,28 mm",
             walls=5,
             infill="15 %",
             supports="Non",
             notes=(
-                "Pièce probablement trop grande pour une "
-                "imprimante standard. Export destiné à la "
-                "validation ou au découpage futur."
+                "Imprimer chaque section à plat. "
+                "Vérifier que le miroir correspond au côté droit."
             ),
         ),
         PrintItem(
@@ -621,6 +685,21 @@ def generate_assembly_guide() -> None:
             "dimensions générales de la borne."
         ),
         (
+            "Charger les douze sections de flanc dans le "
+            "trancheur et vérifier que chaque pièce tient sur "
+            "le plateau d’impression."
+        ),
+        (
+            "Placer provisoirement les six sections de chaque "
+            "côté sur une surface plane afin de reconstruire "
+            "la silhouette complète du flanc."
+        ),
+        (
+            "Ne pas coller les sections entre elles. Les joints "
+            "recevront des logements de vis, des inserts et des "
+            "plaques de renfort pendant le prochain sprint."
+        ),
+        (
             "Imprimer les quatre modules du châssis et vérifier qu’ils "
             "peuvent être placés ensemble sans chevauchement."
         ),
@@ -709,8 +788,10 @@ def main() -> None:
     print("Génération terminée.")
     print("")
     print("Quantités à imprimer :")
-    print("  - flanc gauche complet : 1")
-    print("  - flanc droit complet : 1")
+    print("  - flanc gauche complet de référence : 1")
+    print("  - sections du flanc gauche : 6")
+    print("  - flanc droit complet de référence : 1")
+    print("  - sections du flanc droit : 6")
     print("  - éprouvette pour inserts M3 : 1")
     print("  - éprouvette de passage des vis M3 : 1")
     print("  - module de châssis : 4 pièces")
