@@ -446,6 +446,70 @@ class Chassis:
                 ),
             )
 
+    def _screen_support_mount_positions(
+        self,
+    ) -> list[tuple[float, float]]:
+        """Retourne les positions des deux supports d’écran."""
+
+        return [
+            (
+                -cabinet.screen_support_mount_x,
+                cabinet.screen_support_mount_y,
+            ),
+            (
+                cabinet.screen_support_mount_x,
+                cabinet.screen_support_mount_y,
+            ),
+        ]
+
+    def _add_screen_support_mount_bosses(
+        self,
+        frame: Frame,
+    ) -> None:
+        """Ajoute les bossages des supports d’écran."""
+
+        boss_z = (
+            -cabinet.screen_support_boss_height
+            + 0.2
+        )
+
+        for x, y in self._screen_support_mount_positions():
+            frame.add_cylinder(
+                x=x,
+                y=y,
+                z=boss_z,
+                diameter=(
+                    cabinet.screen_support_boss_diameter
+                ),
+                height=(
+                    cabinet.screen_support_boss_height
+                ),
+            )
+
+    def _cut_screen_support_insert_pockets(
+        self,
+        frame: Frame,
+    ) -> None:
+        """Découpe les logements d’inserts des supports."""
+
+        pocket_z = (
+            -cabinet.screen_support_boss_height
+            - 0.2
+        )
+
+        for x, y in self._screen_support_mount_positions():
+            frame.cut_cylinder(
+                x=x,
+                y=y,
+                z=pocket_z,
+                diameter=(
+                    cabinet.screen_support_insert_diameter
+                ),
+                depth=(
+                    cabinet.screen_support_insert_depth
+                    + 0.4
+                ),
+            )
 
     def build_full(self) -> cq.Workplane:
         """Construit le châssis complet avant découpage."""
@@ -493,6 +557,9 @@ class Chassis:
 
         self._add_cable_clip_mount_bosses(frame)
         self._cut_cable_clip_insert_pockets(frame)
+
+        self._add_screen_support_mount_bosses(frame)
+        self._cut_screen_support_insert_pockets(frame)
 
         return frame.clean().build()
 

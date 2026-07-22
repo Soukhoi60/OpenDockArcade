@@ -124,6 +124,35 @@ class Cabinet:
     cable_clip_boss_diameter: float = 12.0
     cable_clip_boss_height: float = 8.0
 
+    # Supports arrière de l’écran du portable
+    screen_support_base_width: float = 34.0
+    screen_support_base_depth: float = 36.0
+    screen_support_base_thickness: float = 6.0
+
+    screen_support_arm_width: float = 18.0
+    screen_support_arm_thickness: float = 8.0
+    screen_support_arm_length: float = 105.0
+
+    # Inclinaison par rapport à la verticale.
+    screen_support_tilt_angle: float = 12.0
+
+    screen_support_contact_width: float = 30.0
+    screen_support_contact_depth: float = 12.0
+    screen_support_contact_height: float = 8.0
+
+    screen_support_mount_x: float = 105.0
+    screen_support_mount_y: float = 142.0
+
+    screen_support_screw_diameter: float = 3.4
+    screen_support_screw_head_diameter: float = 6.5
+    screen_support_screw_head_depth: float = 2.4
+
+    screen_support_insert_diameter: float = 4.6
+    screen_support_insert_depth: float = 5.2
+
+    screen_support_boss_diameter: float = 14.0
+    screen_support_boss_height: float = 8.0
+
     # Position du portable :
     # distance entre le bord avant du châssis et le portable
     laptop_offset_front: float = 35.0

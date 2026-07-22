@@ -1,4 +1,5 @@
 ﻿Fichier STL;Pièce;Quantité;Matériau;Hauteur de couche;Parois;Remplissage;Supports;Notes
+screen_support_x2.stl;Support arrière de l’écran;2;PETG;0,20 mm;5;40 %;Probablement nécessaires sous la surface supérieure;Imprimer les deux pièces dans la même orientation. Vérifier l’aperçu du trancheur.
 m3_screw_test_coupon.stl;Éprouvette de passage des vis M3;1;PETG;0,20 mm;4;40 %;Non;Imprimer avec les mêmes réglages que les pièces mécaniques définitives.
 chassis_front_left.stl;Châssis avant gauche;1;PETG;0,20 mm;4;25 %;Non, sauf indication du trancheur;Imprimer à plat.
 chassis_front_right.stl;Châssis avant droit;1;PETG;0,20 mm;4;25 %;Non, sauf indication du trancheur;Imprimer à plat.

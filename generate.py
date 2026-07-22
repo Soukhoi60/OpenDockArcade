@@ -19,6 +19,7 @@ from parts.joiner_plate import JoinerPlate
 from parts.laptop_guide import LaptopGuide
 from parts.laptop_rear_stop import LaptopRearStop
 from parts.m3_screw_test_coupon import M3ScrewTestCoupon
+from parts.screen_support import ScreenSupport
 from parts.tpu_pad import TPUPad
 
 
@@ -105,6 +106,14 @@ def generate_cad_files() -> None:
         cable_clip,
     )
 
+    # Supports arrière de l’écran.
+    screen_support = ScreenSupport().build()
+
+    export(
+        "screen_support_x2",
+        screen_support,
+    )
+
     # Patin souple.
     pad = TPUPad().build()
 
@@ -134,6 +143,28 @@ def generate_bom() -> None:
     """Génère la nomenclature générale du projet."""
 
     items = [
+        BOMItem(
+            category="Pièce imprimée",
+            name="Support arrière de l’écran",
+            quantity=2,
+            material="PETG",
+            reference="screen_support_x2.stl",
+            notes=(
+                "Ajouter une protection souple sur la "
+                "surface en contact avec l’écran."
+            ),
+        ),
+        BOMItem(
+            category="Protection",
+            name="Mousse ou TPU adhésif",
+            quantity=2,
+            material="Mousse, feutre ou TPU",
+            reference="",
+            notes=(
+                "À placer sur les supports arrière afin "
+                "de protéger le capot de l’écran."
+            ),
+        ),
         BOMItem(
             category="Pièce imprimée",
             name="Module de châssis avant gauche",
@@ -277,6 +308,23 @@ def generate_print_list() -> None:
 
     items = [
         PrintItem(
+            file_name="screen_support_x2.stl",
+            part_name="Support arrière de l’écran",
+            quantity=2,
+            material="PETG",
+            layer_height="0,20 mm",
+            walls=5,
+            infill="40 %",
+            supports=(
+                "Probablement nécessaires sous la "
+                "surface supérieure"
+            ),
+            notes=(
+                "Imprimer les deux pièces dans la même "
+                "orientation. Vérifier l’aperçu du trancheur."
+            ),
+        ),
+        PrintItem(
             file_name="m3_screw_test_coupon.stl",
             part_name="Éprouvette de passage des vis M3",
             quantity=1,
@@ -395,6 +443,20 @@ def generate_hardware_list() -> None:
     items = [
         HardwareItem(
             name="Insert thermique M3",
+            quantity=2,
+            specification=(
+                "M3, diamètre extérieur selon config.py"
+            ),
+            usage="Supports arrière de l’écran",
+        ),
+        HardwareItem(
+            name="Vis M3",
+            quantity=2,
+            specification="M3 à tête cylindrique",
+            usage="Supports arrière de l’écran",
+        ),
+        HardwareItem(
+            name="Insert thermique M3",
             quantity=8,
             specification="M3, diamètre extérieur selon config.py",
             usage="Assemblage des quatre modules du châssis",
@@ -508,6 +570,16 @@ def generate_assembly_guide() -> None:
             "ne peut plus reculer."
         ),
         (
+            "Installer provisoirement les deux supports arrière "
+            "de l’écran. Ajouter une protection en mousse, feutre "
+            "ou TPU sur chaque surface de contact."
+        ),
+        (
+            "Ouvrir lentement l’écran du portable jusqu’à ce qu’il "
+            "repose sur les deux supports. Vérifier que la pression "
+            "est répartie et que le capot ne se déforme pas."
+        ),
+        (
             "Installer les clips de câbles puis organiser les câbles sans "
             "bloquer les grilles de ventilation."
         ),
@@ -564,10 +636,11 @@ def main() -> None:
     print("  - butée arrière : 2")
     print("  - clip de câble arrière : 2")
     print("  - patin TPU : 6")
+    print("  - support arrière de l’écran : 2")
     print("")
     print("Visserie totale actuelle :")
-    print("  - vis M3 : 16")
-    print("  - inserts thermiques M3 : 16")
+    print("  - vis M3 : 18")
+    print("  - inserts thermiques M3 : 18")
 
 
 if __name__ == "__main__":

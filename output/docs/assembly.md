@@ -61,9 +61,17 @@ Installer les deux butées arrière et vérifier que le portable ne peut plus re
 
 ### Étape 13
 
-Installer les clips de câbles puis organiser les câbles sans bloquer les grilles de ventilation.
+Installer provisoirement les deux supports arrière de l’écran. Ajouter une protection en mousse, feutre ou TPU sur chaque surface de contact.
 
 ### Étape 14
+
+Ouvrir lentement l’écran du portable jusqu’à ce qu’il repose sur les deux supports. Vérifier que la pression est répartie et que le capot ne se déforme pas.
+
+### Étape 15
+
+Installer les clips de câbles puis organiser les câbles sans bloquer les grilles de ventilation.
+
+### Étape 16
 
 Retirer une dernière fois le portable, contrôler toute la visserie, puis effectuer l’installation définitive.
 

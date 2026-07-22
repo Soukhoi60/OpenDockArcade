@@ -1,4 +1,6 @@
 ﻿Catégorie;Élément;Quantité;Matériau;Référence;Notes
+Pièce imprimée;Support arrière de l’écran;2;PETG;screen_support_x2.stl;Ajouter une protection souple sur la surface en contact avec l’écran.
+Protection;Mousse ou TPU adhésif;2;Mousse, feutre ou TPU;;À placer sur les supports arrière afin de protéger le capot de l’écran.
 Pièce imprimée;Module de châssis avant gauche;1;PETG;chassis_front_left.stl;
 Pièce imprimée;Module de châssis avant droit;1;PETG;chassis_front_right.stl;
 Pièce imprimée;Module de châssis arrière gauche;1;PETG;chassis_rear_left.stl;
