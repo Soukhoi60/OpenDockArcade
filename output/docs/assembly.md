@@ -13,41 +13,49 @@ Ce document est généré automatiquement par `generate.py`.
 
 ### Étape 1
 
-Imprimer les quatre modules du châssis et vérifier qu’ils peuvent être placés ensemble sans chevauchement.
+Imprimer l’éprouvette de calibration des inserts M3. Tester les cinq logements et noter celui qui maintient correctement l’insert sans fissurer le PETG.
 
 ### Étape 2
 
-Installer les inserts thermiques M3 dans les bossages du châssis. Chauffer modérément l’insert et l’enfoncer bien droit.
+Reporter le diamètre retenu dans config.py avant de générer et d’imprimer les modules définitifs du châssis.
 
 ### Étape 3
 
-Assembler les quatre modules avec les deux plaques de jonction horizontales et les deux plaques verticales.
+Imprimer les quatre modules du châssis et vérifier qu’ils peuvent être placés ensemble sans chevauchement.
 
 ### Étape 4
 
-Poser le châssis sur une surface plane puis serrer progressivement les vis. Ne pas serrer complètement un seul côté avant les autres.
+Installer les inserts thermiques M3 dans les bossages du châssis. Chauffer modérément l’insert et l’enfoncer bien droit.
 
 ### Étape 5
 
-Installer les six patins TPU sous le châssis et vérifier que l’ensemble ne bascule pas.
+Assembler les quatre modules avec les deux plaques de jonction horizontales et les deux plaques verticales.
 
 ### Étape 6
 
-Placer le portable sans le fixer afin de vérifier son centrage, les dégagements et l’accès à ses connecteurs.
+Poser le châssis sur une surface plane puis serrer progressivement les vis. Ne pas serrer complètement un seul côté avant les autres.
 
 ### Étape 7
 
-Installer les guides latéraux gauche et droit. Laisser un léger jeu afin de ne pas comprimer la coque du portable.
+Installer les six patins TPU sous le châssis et vérifier que l’ensemble ne bascule pas.
 
 ### Étape 8
 
-Installer les deux butées arrière et vérifier que le portable ne peut plus reculer.
+Placer le portable sans le fixer afin de vérifier son centrage, les dégagements et l’accès à ses connecteurs.
 
 ### Étape 9
 
-Installer les clips de câbles puis organiser les câbles sans bloquer les grilles de ventilation.
+Installer les guides latéraux gauche et droit. Laisser un léger jeu afin de ne pas comprimer la coque du portable.
 
 ### Étape 10
+
+Installer les deux butées arrière et vérifier que le portable ne peut plus reculer.
+
+### Étape 11
+
+Installer les clips de câbles puis organiser les câbles sans bloquer les grilles de ventilation.
+
+### Étape 12
 
 Retirer une dernière fois le portable, contrôler toute la visserie, puis effectuer l’installation définitive.
 

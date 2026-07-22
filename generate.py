@@ -14,6 +14,7 @@ from core.print_list import PrintItem, write_print_list
 
 from parts.cable_clip import CableClip
 from parts.chassis import Chassis
+from parts.insert_test_coupon import InsertTestCoupon
 from parts.joiner_plate import JoinerPlate
 from parts.laptop_guide import LaptopGuide
 from parts.laptop_rear_stop import LaptopRearStop
@@ -111,6 +112,14 @@ def generate_cad_files() -> None:
         pad,
     )
 
+    # Éprouvette de calibration pour inserts thermiques M3.
+    insert_test_coupon = InsertTestCoupon().build()
+
+    export(
+        "insert_test_coupon",
+        insert_test_coupon,
+    )
+
 
 def generate_bom() -> None:
     """Génère la nomenclature générale du projet."""
@@ -187,6 +196,17 @@ def generate_bom() -> None:
             reference="cable_clip_x2.stl",
         ),
         BOMItem(
+            category="Outil de calibration",
+            name="Éprouvette pour inserts thermiques M3",
+            quantity=1,
+            material="PETG",
+            reference="insert_test_coupon.stl",
+            notes=(
+                "À imprimer avant le châssis pour choisir "
+                "le meilleur diamètre de logement."
+            ),
+        ),
+        BOMItem(
             category="Pièce imprimée",
             name="Patin antidérapant",
             quantity=6,
@@ -216,6 +236,7 @@ def generate_bom() -> None:
             reference="ASUS R753UX-T4039T",
             notes="Dimensions déclarées : 415 × 275 × 32 mm.",
         ),
+
     ]
 
     write_bom(
@@ -399,6 +420,15 @@ def generate_assembly_guide() -> None:
 
     steps = [
         (
+            "Imprimer l’éprouvette de calibration des inserts M3. "
+            "Tester les cinq logements et noter celui qui maintient "
+            "correctement l’insert sans fissurer le PETG."
+        ),
+        (
+            "Reporter le diamètre retenu dans config.py avant de "
+            "générer et d’imprimer les modules définitifs du châssis."
+        ),
+        (
             "Imprimer les quatre modules du châssis et vérifier qu’ils "
             "peuvent être placés ensemble sans chevauchement."
         ),
@@ -477,6 +507,7 @@ def main() -> None:
     print("Génération terminée.")
     print("")
     print("Quantités à imprimer :")
+    print("  - éprouvette de calibration : 1")
     print("  - module de châssis : 4 pièces")
     print("  - plaque horizontale : 2")
     print("  - plaque verticale : 2")
