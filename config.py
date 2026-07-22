@@ -56,6 +56,27 @@ class Cabinet:
     joiner_rear_y: float = 115.0
     joiner_side_x: float = 219.0
 
+    # Guides latéraux du portable
+    guide_length: float = 52.0
+    guide_base_width: float = 28.0
+    guide_base_thickness: float = 5.0
+    guide_wall_thickness: float = 5.0
+    guide_height: float = 22.0
+    guide_corner_radius: float = 3.0
+
+    guide_mount_x: float = 228.0
+    guide_front_y: float = -75.0
+    guide_rear_y: float = 75.0
+
+    guide_screw_diameter: float = 3.4
+    guide_screw_head_diameter: float = 6.5
+    guide_screw_head_depth: float = 2.2
+
+    guide_insert_diameter: float = 4.6
+    guide_insert_depth: float = 5.2
+    guide_boss_diameter: float = 12.0
+    guide_boss_height: float = 8.0
+
     fillet: float = 4.0
     clearance: float = 2.0
 

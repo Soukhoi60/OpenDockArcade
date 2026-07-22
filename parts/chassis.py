@@ -261,6 +261,73 @@ class Chassis:
                 ),
             )
 
+    def _guide_mount_positions(
+        self,
+    ) -> list[tuple[float, float]]:
+        """Retourne les quatre positions des guides latéraux."""
+
+        return [
+            (
+                -cabinet.guide_mount_x,
+                cabinet.guide_front_y,
+            ),
+            (
+                -cabinet.guide_mount_x,
+                cabinet.guide_rear_y,
+            ),
+            (
+                cabinet.guide_mount_x,
+                cabinet.guide_front_y,
+            ),
+            (
+                cabinet.guide_mount_x,
+                cabinet.guide_rear_y,
+            ),
+        ]
+
+    def _add_guide_mount_bosses(
+        self,
+        frame: Frame,
+    ) -> None:
+        """Ajoute les bossages de fixation des guides."""
+
+        boss_z = (
+            -cabinet.guide_boss_height
+            + 0.2
+        )
+
+        for x, y in self._guide_mount_positions():
+            frame.add_cylinder(
+                x=x,
+                y=y,
+                z=boss_z,
+                diameter=cabinet.guide_boss_diameter,
+                height=cabinet.guide_boss_height,
+            )
+
+    def _cut_guide_insert_pockets(
+        self,
+        frame: Frame,
+    ) -> None:
+        """Découpe les logements des inserts M3 des guides."""
+
+        pocket_z = (
+            -cabinet.guide_boss_height
+            - 0.2
+        )
+
+        for x, y in self._guide_mount_positions():
+            frame.cut_cylinder(
+                x=x,
+                y=y,
+                z=pocket_z,
+                diameter=cabinet.guide_insert_diameter,
+                depth=(
+                    cabinet.guide_insert_depth
+                    + 0.4
+                ),
+            )
+
     def build_full(self) -> cq.Workplane:
         """Construit le châssis complet avant découpage."""
 
@@ -298,6 +365,8 @@ class Chassis:
 
         self._add_joiner_bosses(frame)
         self._cut_joiner_insert_pockets(frame)
+        self._add_guide_mount_bosses(frame)
+        self._cut_guide_insert_pockets(frame)
 
         return frame.clean().build()
 
