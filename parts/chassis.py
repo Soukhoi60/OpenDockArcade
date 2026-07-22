@@ -328,6 +328,65 @@ class Chassis:
                 ),
             )
 
+    def _rear_stop_mount_positions(
+        self,
+    ) -> list[tuple[float, float]]:
+        """Retourne les deux positions des butées arrière."""
+
+        return [
+            (
+                -cabinet.rear_stop_mount_x,
+                cabinet.rear_stop_mount_y,
+            ),
+            (
+                cabinet.rear_stop_mount_x,
+                cabinet.rear_stop_mount_y,
+            ),
+        ]
+
+    def _add_rear_stop_mount_bosses(
+        self,
+        frame: Frame,
+    ) -> None:
+        """Ajoute les bossages de fixation des butées arrière."""
+
+        boss_z = (
+            -cabinet.rear_stop_boss_height
+            + 0.2
+        )
+
+        for x, y in self._rear_stop_mount_positions():
+            frame.add_cylinder(
+                x=x,
+                y=y,
+                z=boss_z,
+                diameter=cabinet.rear_stop_boss_diameter,
+                height=cabinet.rear_stop_boss_height,
+            )
+
+    def _cut_rear_stop_insert_pockets(
+        self,
+        frame: Frame,
+    ) -> None:
+        """Découpe les logements des inserts M3 des butées."""
+
+        pocket_z = (
+            -cabinet.rear_stop_boss_height
+            - 0.2
+        )
+
+        for x, y in self._rear_stop_mount_positions():
+            frame.cut_cylinder(
+                x=x,
+                y=y,
+                z=pocket_z,
+                diameter=cabinet.rear_stop_insert_diameter,
+                depth=(
+                    cabinet.rear_stop_insert_depth
+                    + 0.4
+                ),
+            )
+
     def build_full(self) -> cq.Workplane:
         """Construit le châssis complet avant découpage."""
 
@@ -365,8 +424,12 @@ class Chassis:
 
         self._add_joiner_bosses(frame)
         self._cut_joiner_insert_pockets(frame)
+
         self._add_guide_mount_bosses(frame)
         self._cut_guide_insert_pockets(frame)
+
+        self._add_rear_stop_mount_bosses(frame)
+        self._cut_rear_stop_insert_pockets(frame)
 
         return frame.clean().build()
 

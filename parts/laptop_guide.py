@@ -81,7 +81,7 @@ class LaptopGuide:
 
         guide = guide.cut(screw_hole)
 
-        # Logement de tête de vis.
+        # Logement de tête de vis accessible depuis le dessus.
         head_pocket = (
             cq.Workplane("XY")
             .circle(
@@ -90,7 +90,15 @@ class LaptopGuide:
             .extrude(
                 cabinet.guide_screw_head_depth + 0.2
             )
-            .translate((0, 0, -0.1))
+            .translate(
+                (
+                    0,
+                    0,
+                    cabinet.guide_base_thickness
+                    - cabinet.guide_screw_head_depth
+                    - 0.1,
+                )
+            )
         )
 
         guide = guide.cut(head_pocket)

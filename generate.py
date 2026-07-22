@@ -8,6 +8,7 @@ from core.export import export
 from parts.chassis import Chassis
 from parts.joiner_plate import JoinerPlate
 from parts.laptop_guide import LaptopGuide
+from parts.laptop_rear_stop import LaptopRearStop
 from parts.tpu_pad import TPUPad
 
 
@@ -72,6 +73,14 @@ def main() -> None:
         right_guide,
     )
 
+    # Butées arrière.
+    rear_stop = LaptopRearStop().build()
+
+    export(
+        "laptop_rear_stop_x2",
+        rear_stop,
+    )
+
     # Patin TPU.
     pad = TPUPad().build()
 
@@ -92,8 +101,8 @@ def main() -> None:
     print("  - patin TPU : 6")
     print("")
     print("Visserie totale actuelle :")
-    print("  - vis M3 : 12")
-    print("  - inserts thermiques M3 : 12")
+    print("  - vis M3 : 14")
+    print("  - inserts thermiques M3 : 14")
 
 
 if __name__ == "__main__":

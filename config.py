@@ -80,6 +80,27 @@ class Cabinet:
     fillet: float = 4.0
     clearance: float = 2.0
 
+    # Butées arrière du portable
+    rear_stop_base_width: float = 40.0
+    rear_stop_base_depth: float = 28.0
+    rear_stop_base_thickness: float = 5.0
+
+    rear_stop_wall_thickness: float = 5.0
+    rear_stop_wall_height: float = 22.0
+
+    rear_stop_mount_x: float = 150.0
+    rear_stop_mount_y: float = 154.0
+
+    rear_stop_screw_diameter: float = 3.4
+    rear_stop_screw_head_diameter: float = 6.5
+    rear_stop_screw_head_depth: float = 2.2
+
+    rear_stop_insert_diameter: float = 4.6
+    rear_stop_insert_depth: float = 5.2
+
+    rear_stop_boss_diameter: float = 12.0
+    rear_stop_boss_height: float = 8.0
+
     # Position du portable :
     # distance entre le bord avant du châssis et le portable
     laptop_offset_front: float = 35.0
