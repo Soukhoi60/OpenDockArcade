@@ -1,0 +1,7 @@
+INSERT_M3 = 4.6
+
+SCREW_M3 = 3.2
+
+MAGNET_6X3 = (6,3)
+
+TPU_PAD = (20,3)
